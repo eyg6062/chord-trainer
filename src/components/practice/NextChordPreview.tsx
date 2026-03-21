@@ -17,18 +17,18 @@ export function NextChordPreview({ chords, previewCount }: Props) {
 
   return (
     <div className="flex justify-center items-center gap-4 py-2">
-      <span className="text-xs text-gray-400 uppercase tracking-wide mr-1">Next</span>
+      <span className="text-xs text-neutral-400 uppercase tracking-wide mr-1">Next</span>
       {visible.map((chord, i) => (
         <span
           key={i}
-          className="text-lg font-semibold text-gray-400"
+          className="text-lg font-semibold text-neutral-400"
           style={{ opacity: 1 - i * 0.2 }}
         >
           {formatChordName(chord)}
         </span>
       ))}
       {visible.length === 0 && (
-        <span className="text-gray-400 text-sm">—</span>
+        <span className="text-neutral-400 text-sm">—</span>
       )}
     </div>
   );

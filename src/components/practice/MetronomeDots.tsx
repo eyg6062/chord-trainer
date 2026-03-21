@@ -14,8 +14,8 @@ export function MetronomeDots({ totalTicks, currentTick, enabled }: Props) {
           key={i}
           className={`w-3 h-3 rounded-full border-2 transition-colors duration-100 ${
             i < currentTick
-              ? 'bg-indigo-500 border-indigo-500'
-              : 'bg-transparent border-gray-400'
+              ? 'bg-indigo-500 border-indigo-500 bg-'
+              : 'bg-transparent border-neutral-400'
           }`}
         />
       ))}

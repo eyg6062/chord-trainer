@@ -20,16 +20,16 @@ export function MidiSettings({
 }: Props) {
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-gray-300">MIDI Input</h3>
+      <h3 className="text-sm font-semibold text-neutral-300">MIDI Input</h3>
 
       <label className="flex items-center gap-2 cursor-pointer">
         <input
           type="checkbox"
           checked={enabled}
           onChange={onToggle}
-          className="rounded"
+          className="rounded accent-indigo-500"
         />
-        <span className="text-sm text-gray-300">Enable MIDI device</span>
+        <span className="text-sm text-neutral-300">Enable MIDI device</span>
       </label>
 
       {enabled && (
@@ -38,8 +38,8 @@ export function MidiSettings({
             value={selectedDeviceId ?? ''}
             onChange={(e) => onSelectDevice(e.target.value)}
             disabled={devices.length === 0}
-            className="text-sm border border-gray-600 rounded-md px-2 py-1
-                       bg-gray-800 text-gray-200 disabled:opacity-50"
+            className="text-sm border border-neutral-600 rounded-md px-2 py-1
+                       bg-neutral-800 text-neutral-200 disabled:opacity-50"
           >
             {devices.length === 0 ? (
               <option value="">No devices found</option>
@@ -54,8 +54,8 @@ export function MidiSettings({
 
           <button
             onClick={onRefresh}
-            className="text-sm px-2.5 py-1 rounded-md bg-gray-700 text-gray-300
-                       hover:bg-gray-600 transition-colors"
+            className="text-sm px-2.5 py-1 rounded-md bg-neutral-700 text-neutral-300
+                       hover:bg-neutral-600 transition-colors"
             title="Rescan MIDI devices"
           >
             ↺ Refresh

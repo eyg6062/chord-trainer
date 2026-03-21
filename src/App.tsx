@@ -25,7 +25,7 @@ function App() {
     <div className="min-h-screen bg-neutral-900 flex flex-col">
       {/* App header */}
       <header className="px-6 py-4 border-b border-neutral-700">
-        <h1 className="text-xl font-bold text-gray-100 tracking-tight">Chord Trainer</h1>
+        <h1 className="text-xl font-bold text-neutral-100 tracking-tight">Chord Trainer</h1>
       </header>
 
       {/* Practice area — top section */}

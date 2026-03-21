@@ -43,7 +43,7 @@ interface Props {
 export function SettingsPanel(props: Props) {
   return (
     <section className="border-t border-neutral-700 bg-neutral-900 p-6 space-y-6">
-      <h2 className="text-base font-semibold text-gray-200">Settings</h2>
+      <h2 className="text-base font-semibold text-neutral-200">Settings</h2>
 
       {/* Row 1: MIDI + Metronome side by side */}
       <div className="flex flex-wrap gap-8">

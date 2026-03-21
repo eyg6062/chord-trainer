@@ -19,8 +19,8 @@ interface Props {
 export function ExtensionSelector({ allowedExtensions, onToggle }: Props) {
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-gray-300">Note Extensions</h3>
-      <p className="text-xs text-gray-500">
+      <h3 className="text-sm font-semibold text-neutral-300">Note Extensions</h3>
+      <p className="text-xs text-neutral-500">
         Applied as optional modifiers on top of selected chord types.
       </p>
       <div className="flex flex-wrap gap-1.5">
@@ -31,7 +31,7 @@ export function ExtensionSelector({ allowedExtensions, onToggle }: Props) {
             className={`px-2.5 py-1 text-xs font-medium rounded-md border transition-colors cursor-pointer
               ${allowedExtensions.includes(value)
                 ? 'bg-indigo-500 border-indigo-500 text-white'
-                : 'bg-gray-800 border-gray-600 text-gray-300 hover:border-indigo-400'
+                : 'bg-neutral-800 border-neutral-600 text-neutral-300 hover:border-indigo-400'
               }`}
           >
             {label}

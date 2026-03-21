@@ -25,7 +25,7 @@ function SliderNumberInput({ label, value, min, max, onChange }: SliderNumberInp
 
   return (
     <div className="flex items-center gap-3">
-      <label className="text-xs text-gray-400 w-28 shrink-0">{label}</label>
+      <label className="text-xs text-neutral-400 w-28 shrink-0">{label}</label>
       <input
         type="range"
         min={min}
@@ -40,8 +40,8 @@ function SliderNumberInput({ label, value, min, max, onChange }: SliderNumberInp
         max={max}
         value={value}
         onChange={(e) => handleChange(Number(e.target.value))}
-        className="w-16 text-sm border border-gray-600 rounded-md px-2 py-1
-                   text-center bg-gray-800 text-gray-200"
+        className="w-16 text-sm border border-neutral-600 rounded-md px-2 py-1
+                   text-center bg-neutral-800 text-neutral-200"
       />
     </div>
   );
@@ -60,15 +60,15 @@ export function MetronomeSettings({
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-3">
-        <h3 className="text-sm font-semibold text-gray-300">Metronome</h3>
+        <h3 className="text-sm font-semibold text-neutral-300">Metronome</h3>
         <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={enabled}
             onChange={onToggle}
-            className="rounded"
+            className="rounded accent-indigo-500"
           />
-          <span className="text-sm text-gray-300">Enabled</span>
+          <span className="text-sm text-neutral-300">Enabled</span>
         </label>
       </div>
 

@@ -15,7 +15,7 @@ const feedbackColorClass: Record<ChordFeedback, string> = {
   correct:             'text-green-500',
   'correct-with-wrong':'text-yellow-400',
   wrong:               'text-red-500',
-  skipped:             'text-gray-400',
+  skipped:             'text-neutral-400',
 };
 
 export function CurrentChordDisplay({ chord, feedback }: Props) {
@@ -28,7 +28,7 @@ export function CurrentChordDisplay({ chord, feedback }: Props) {
           {formatChordName(chord)}
         </span>
       ) : (
-        <span className="text-4xl text-gray-400">—</span>
+        <span className="text-4x text-neutral-400">—</span>
       )}
     </div>
   );
