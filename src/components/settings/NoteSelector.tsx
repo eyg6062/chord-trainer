@@ -1,0 +1,60 @@
+/**
+ * Reusable multi-select grid for choosing note names.
+ * Used by both KeySelector (24 major/minor options) and RootSelector (12 notes).
+ */
+interface Props {
+  label: string;
+  options: string[];           // e.g. ["C major", "C minor", ...] or ["C","C#",...]
+  selected: string[];
+  allSelected: boolean;        // whether the "All" toggle is on
+  onToggleAll: () => void;
+  onToggle: (option: string) => void;
+}
+
+export function NoteSelector({
+  label,
+  options,
+  selected,
+  allSelected,
+  onToggleAll,
+  onToggle,
+}: Props) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center gap-3">
+        <h3 className="text-sm font-semibold text-gray-300">{label}</h3>
+        <label className="flex items-center gap-1.5 text-sm text-gray-400 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={allSelected}
+            onChange={onToggleAll}
+            className="rounded"
+          />
+          All
+        </label>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((option) => {
+          const isSelected = selected.includes(option);
+          return (
+            <button
+              key={option}
+              onClick={() => onToggle(option)}
+              disabled={allSelected}
+              className={`px-2.5 py-1 text-xs font-medium rounded-md border transition-colors
+                ${isSelected
+                  ? 'bg-indigo-500 border-indigo-500 text-white'
+                  : 'bg-gray-800 border-gray-600 text-gray-300 hover:border-indigo-400'
+                }
+                ${allSelected ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+              `}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
