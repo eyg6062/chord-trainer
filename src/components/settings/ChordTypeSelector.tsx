@@ -8,7 +8,7 @@ interface ChordGroup {
 const CHORD_GROUPS: ChordGroup[] = [
   {
     label: 'Triads',
-    types: ['Major', 'minor', 'dim', 'aug', 'sus2', 'sus4'],
+    types: ['Major', 'minor', 'dim', 'aug'],
   },
   {
     label: 'Sevenths',
@@ -28,7 +28,7 @@ const CHORD_GROUPS: ChordGroup[] = [
   },
   {
     label: 'Suspended',
-    types: ['7sus4'],
+    types: ['sus2', 'sus4', '7sus4'],
   },
 ];
 

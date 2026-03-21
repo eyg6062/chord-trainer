@@ -1,5 +1,5 @@
-import { Chord, ChordFeedback, ChordTypeName, Extension, NoteClass, PassedChord } from './chord';
-import { MidiDevice } from './midi';
+import type{ Chord, ChordFeedback, ChordTypeName, Extension, NoteClass, PassedChord } from './chord';
+import type { MidiDevice } from './midi';
 
 export interface Settings {
   // MIDI
