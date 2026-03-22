@@ -5,20 +5,18 @@ const ALL_ROOTS: NoteClass[] = ['C','C#','D','D#','E','F','F#','G','G#','A','A#'
 
 interface Props {
   selectedRoots: NoteClass[];
-  // TODO: wire to dispatch SET_SELECTED_ROOTS
+  allRootsEnabled: boolean;
   onToggleAll: () => void;
   onToggle: (root: NoteClass) => void;
 }
 
-export function RootSelector({ selectedRoots, onToggleAll, onToggle }: Props) {
-  const allSelected = selectedRoots.length === ALL_ROOTS.length;
-
+export function RootSelector({ selectedRoots, allRootsEnabled, onToggleAll, onToggle }: Props) {
   return (
     <NoteSelector
       label="Roots"
       options={ALL_ROOTS}
       selected={selectedRoots}
-      allSelected={allSelected}
+      allEnabled={allRootsEnabled}
       onToggleAll={onToggleAll}
       onToggle={(r) => onToggle(r as NoteClass)}
     />

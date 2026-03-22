@@ -10,9 +10,14 @@ export const DEFAULT_SETTINGS: Settings = {
   metronomeEnabled: false,
   bpm: 80,
   ticksPerChord: 4,
+  allKeysEnabled: true,
   selectedKeys: [],
-  selectedRoots: [...CHROMATIC_NOTES],          // empty = "All" (no root filter)
+  allRootsEnabled: true,
+  selectedRoots: [...CHROMATIC_NOTES],
+  allChordTypesEnabled: false,
+  allGroupsEnabled: {},
   selectedChordTypes: ['Major', 'minor'],
+  allExtensionsEnabled: false,
   allowedExtensions: [],
   nextChordPreviewCount: 2,
 };
@@ -87,14 +92,29 @@ export function reducer(state: AppState, action: Action): AppState {
     case 'SET_TICKS_PER_CHORD':
       return { ...state, settings: { ...state.settings, ticksPerChord: action.payload } };
 
+    case 'SET_ALL_KEYS_ENABLED':
+      return { ...state, settings: { ...state.settings, allKeysEnabled: action.payload } };
+
     case 'SET_SELECTED_KEYS':
       return { ...state, settings: { ...state.settings, selectedKeys: action.payload } };
+
+    case 'SET_ALL_ROOTS_ENABLED':
+      return { ...state, settings: { ...state.settings, allRootsEnabled: action.payload } };
 
     case 'SET_SELECTED_ROOTS':
       return { ...state, settings: { ...state.settings, selectedRoots: action.payload } };
 
+    case 'SET_ALL_CHORD_TYPES_ENABLED':
+      return { ...state, settings: { ...state.settings, allChordTypesEnabled: action.payload } };
+
+    case 'SET_ALL_GROUPS_ENABLED':
+      return { ...state, settings: { ...state.settings, allGroupsEnabled: action.payload } };
+
     case 'SET_SELECTED_CHORD_TYPES':
       return { ...state, settings: { ...state.settings, selectedChordTypes: action.payload } };
+
+    case 'SET_ALL_EXTENSIONS_ENABLED':
+      return { ...state, settings: { ...state.settings, allExtensionsEnabled: action.payload } };
 
     case 'SET_ALLOWED_EXTENSIONS':
       return { ...state, settings: { ...state.settings, allowedExtensions: action.payload } };

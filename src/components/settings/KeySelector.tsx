@@ -9,21 +9,19 @@ const KEY_OPTIONS: string[] = CHROMATIC.flatMap((note) => [
 ]);
 
 interface Props {
-  selectedKeys: string[];    // empty = "All" (no diatonic filter applied)
-  // TODO: wire to dispatch SET_SELECTED_KEYS
+  selectedKeys: string[];
+  allKeysEnabled: boolean;
   onToggleAll: () => void;
   onToggle: (key: string) => void;
 }
 
-export function KeySelector({ selectedKeys, onToggleAll, onToggle }: Props) {
-  const allSelected = selectedKeys.length === 0;
-
+export function KeySelector({ selectedKeys, allKeysEnabled, onToggleAll, onToggle }: Props) {
   return (
     <NoteSelector
       label="Keys"
       options={KEY_OPTIONS}
       selected={selectedKeys}
-      allSelected={allSelected}
+      allEnabled={allKeysEnabled}
       onToggleAll={onToggleAll}
       onToggle={onToggle}
     />

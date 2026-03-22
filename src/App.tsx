@@ -1,76 +1,100 @@
 import { useApp } from './context/AppContext';
-import { CHROMATIC_NOTES } from './constants/notes';
-import { CHORD_INTERVALS } from './constants/chordIntervals';
+import { CHORD_GROUPS } from './components/settings/ChordTypeSelector';
 import { PracticeArea } from './components/practice/PracticeArea';
 import { SettingsPanel } from './components/settings/SettingsPanel';
 import type { NoteClass, ChordTypeName, Extension } from './types/chord';
-
-const ALL_CHORD_TYPES = Object.keys(CHORD_INTERVALS) as ChordTypeName[];
 
 function App() {
   const { state, dispatch } = useApp();
   const { settings } = state;
 
-  // ── Chord pool handlers ────────────────────────────────────────────────────
+  // ── Keys ──────────────────────────────────────────────────────────────────
 
   function handleToggleAllKeys() {
-    // Empty array = "All" (no key filter). Clicking All always clears the filter.
-    dispatch({ type: 'SET_SELECTED_KEYS', payload: [] });
+    dispatch({ type: 'SET_ALL_KEYS_ENABLED', payload: !settings.allKeysEnabled });
   }
 
   function handleToggleKey(key: string) {
+    if (settings.allKeysEnabled) {
+      dispatch({ type: 'SET_ALL_KEYS_ENABLED', payload: false });
+    }
     const next = settings.selectedKeys.includes(key)
       ? settings.selectedKeys.filter((k) => k !== key)
       : [...settings.selectedKeys, key];
     dispatch({ type: 'SET_SELECTED_KEYS', payload: next });
   }
 
+  // ── Roots ─────────────────────────────────────────────────────────────────
+
   function handleToggleAllRoots() {
-    const allSelected = settings.selectedRoots.length === CHROMATIC_NOTES.length;
-    dispatch({
-      type: 'SET_SELECTED_ROOTS',
-      payload: allSelected ? [] : [...CHROMATIC_NOTES],
-    });
+    dispatch({ type: 'SET_ALL_ROOTS_ENABLED', payload: !settings.allRootsEnabled });
   }
 
   function handleToggleRoot(root: NoteClass) {
+    if (settings.allRootsEnabled) {
+      dispatch({ type: 'SET_ALL_ROOTS_ENABLED', payload: false });
+    }
     const next = settings.selectedRoots.includes(root)
       ? settings.selectedRoots.filter((r) => r !== root)
       : [...settings.selectedRoots, root];
     dispatch({ type: 'SET_SELECTED_ROOTS', payload: next });
   }
 
+  // ── Chord types ───────────────────────────────────────────────────────────
+
   function handleToggleAllChordTypes() {
-    const allSelected = ALL_CHORD_TYPES.every((t) => settings.selectedChordTypes.includes(t));
+    dispatch({ type: 'SET_ALL_CHORD_TYPES_ENABLED', payload: !settings.allChordTypesEnabled });
+  }
+
+  function handleToggleChordTypeGroup(groupLabel: string) {
     dispatch({
-      type: 'SET_SELECTED_CHORD_TYPES',
-      payload: allSelected ? [] : ALL_CHORD_TYPES,
+      type: 'SET_ALL_GROUPS_ENABLED',
+      payload: {
+        ...settings.allGroupsEnabled,
+        [groupLabel]: !settings.allGroupsEnabled[groupLabel],
+      },
     });
   }
 
-  function handleToggleChordTypeGroup(types: ChordTypeName[]) {
-    const allInGroup = types.every((t) => settings.selectedChordTypes.includes(t));
-    const next = allInGroup
-      ? settings.selectedChordTypes.filter((t) => !types.includes(t))
-      : [...settings.selectedChordTypes, ...types.filter((t) => !settings.selectedChordTypes.includes(t))];
-    dispatch({ type: 'SET_SELECTED_CHORD_TYPES', payload: next });
-  }
-
   function handleToggleChordType(type: ChordTypeName) {
+    // Determine which All flags cover this type and turn them off
+    const group = CHORD_GROUPS.find((g) => g.types.includes(type));
+    const topAllCovers = settings.allChordTypesEnabled;
+    const groupAllCovers = group ? (settings.allGroupsEnabled[group.label] ?? false) : false;
+
+    if (topAllCovers) {
+      dispatch({ type: 'SET_ALL_CHORD_TYPES_ENABLED', payload: false });
+    }
+    if (groupAllCovers && group) {
+      dispatch({
+        type: 'SET_ALL_GROUPS_ENABLED',
+        payload: { ...settings.allGroupsEnabled, [group.label]: false },
+      });
+    }
+
     const next = settings.selectedChordTypes.includes(type)
       ? settings.selectedChordTypes.filter((t) => t !== type)
       : [...settings.selectedChordTypes, type];
     dispatch({ type: 'SET_SELECTED_CHORD_TYPES', payload: next });
   }
 
+  // ── Extensions ────────────────────────────────────────────────────────────
+
+  function handleToggleAllExtensions() {
+    dispatch({ type: 'SET_ALL_EXTENSIONS_ENABLED', payload: !settings.allExtensionsEnabled });
+  }
+
   function handleToggleExtension(ext: Extension) {
+    if (settings.allExtensionsEnabled) {
+      dispatch({ type: 'SET_ALL_EXTENSIONS_ENABLED', payload: false });
+    }
     const next = settings.allowedExtensions.includes(ext)
       ? settings.allowedExtensions.filter((e) => e !== ext)
       : [...settings.allowedExtensions, ext];
     dispatch({ type: 'SET_ALLOWED_EXTENSIONS', payload: next });
   }
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // ── Render ────────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-neutral-900 flex flex-col">
@@ -100,9 +124,14 @@ function App() {
         onTicksChange={() => {}}
         onPreviewCountChange={() => {}}
         // Chord pool
+        allKeysEnabled={settings.allKeysEnabled}
         selectedKeys={settings.selectedKeys}
+        allRootsEnabled={settings.allRootsEnabled}
         selectedRoots={settings.selectedRoots}
+        allChordTypesEnabled={settings.allChordTypesEnabled}
+        allGroupsEnabled={settings.allGroupsEnabled}
         selectedChordTypes={settings.selectedChordTypes}
+        allExtensionsEnabled={settings.allExtensionsEnabled}
         allowedExtensions={settings.allowedExtensions}
         onToggleAllKeys={handleToggleAllKeys}
         onToggleKey={handleToggleKey}
@@ -111,6 +140,7 @@ function App() {
         onToggleAllChordTypes={handleToggleAllChordTypes}
         onToggleChordTypeGroup={handleToggleChordTypeGroup}
         onToggleChordType={handleToggleChordType}
+        onToggleAllExtensions={handleToggleAllExtensions}
         onToggleExtension={handleToggleExtension}
       />
     </div>

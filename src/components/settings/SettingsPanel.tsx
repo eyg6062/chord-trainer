@@ -18,11 +18,16 @@ interface Props {
   ticksPerChord: number;
   nextChordPreviewCount: number;
   // Chord pool
+  allKeysEnabled: boolean;
   selectedKeys: string[];
+  allRootsEnabled: boolean;
   selectedRoots: NoteClass[];
+  allChordTypesEnabled: boolean;
+  allGroupsEnabled: Record<string, boolean>;
   selectedChordTypes: ChordTypeName[];
+  allExtensionsEnabled: boolean;
   allowedExtensions: Extension[];
-  // TODO: wire all handlers to dispatch
+  // Handlers
   onMidiToggle: () => void;
   onMidiSelectDevice: (id: string) => void;
   onMidiRefresh: () => void;
@@ -35,8 +40,9 @@ interface Props {
   onToggleAllRoots: () => void;
   onToggleRoot: (root: NoteClass) => void;
   onToggleAllChordTypes: () => void;
-  onToggleChordTypeGroup: (types: ChordTypeName[]) => void;
+  onToggleChordTypeGroup: (groupLabel: string) => void;
   onToggleChordType: (type: ChordTypeName) => void;
+  onToggleAllExtensions: () => void;
   onToggleExtension: (ext: Extension) => void;
 }
 
@@ -70,6 +76,7 @@ export function SettingsPanel(props: Props) {
       {/* Row 2: Key selector */}
       <KeySelector
         selectedKeys={props.selectedKeys}
+        allKeysEnabled={props.allKeysEnabled}
         onToggleAll={props.onToggleAllKeys}
         onToggle={props.onToggleKey}
       />
@@ -77,6 +84,7 @@ export function SettingsPanel(props: Props) {
       {/* Row 3: Root selector */}
       <RootSelector
         selectedRoots={props.selectedRoots}
+        allRootsEnabled={props.allRootsEnabled}
         onToggleAll={props.onToggleAllRoots}
         onToggle={props.onToggleRoot}
       />
@@ -84,6 +92,8 @@ export function SettingsPanel(props: Props) {
       {/* Row 4: Chord types + extensions */}
       <ChordTypeSelector
         selectedChordTypes={props.selectedChordTypes}
+        allChordTypesEnabled={props.allChordTypesEnabled}
+        allGroupsEnabled={props.allGroupsEnabled}
         onToggleAll={props.onToggleAllChordTypes}
         onToggleGroup={props.onToggleChordTypeGroup}
         onToggle={props.onToggleChordType}
@@ -91,6 +101,8 @@ export function SettingsPanel(props: Props) {
 
       <ExtensionSelector
         allowedExtensions={props.allowedExtensions}
+        allExtensionsEnabled={props.allExtensionsEnabled}
+        onToggleAll={props.onToggleAllExtensions}
         onToggle={props.onToggleExtension}
       />
     </section>

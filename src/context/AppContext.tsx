@@ -10,6 +10,9 @@ import type { AppState, Action, Settings } from '../types/state';
 import type { Chord } from '../types/chord';
 import { reducer, INITIAL_STATE, DEFAULT_SETTINGS } from './reducer';
 import { buildChordPool } from '../logic/chordGeneration';
+import { CHROMATIC_NOTES } from '../constants/notes';
+import { CHORD_GROUPS, ALL_CHORD_TYPES } from '../components/settings/ChordTypeSelector';
+import { ALL_EXTENSION_VALUES } from '../components/settings/ExtensionSelector';
 
 // ── localStorage ──────────────────────────────────────────────────────────────
 
@@ -60,22 +63,37 @@ export function AppProvider({ children }: { children: ReactNode }) {
     saveSettings(state.settings);
   }, [state.settings]);
 
-  // Chord pool: recomputed only when the four pool-relevant settings change
-  const chordPool = useMemo(
-    () =>
-      buildChordPool({
-        selectedRoots: state.settings.selectedRoots,
-        selectedChordTypes: state.settings.selectedChordTypes,
-        allowedExtensions: state.settings.allowedExtensions,
-        selectedKeys: state.settings.selectedKeys,
-      }),
-    [
-      state.settings.selectedRoots,
-      state.settings.selectedChordTypes,
-      state.settings.allowedExtensions,
-      state.settings.selectedKeys,
-    ],
-  );
+  // Chord pool: recomputed when any pool-relevant setting changes
+  const chordPool = useMemo(() => {
+    const s = state.settings;
+
+    const effectiveRoots = s.allRootsEnabled ? CHROMATIC_NOTES : s.selectedRoots;
+    const effectiveKeys  = s.allKeysEnabled  ? []              : s.selectedKeys;
+    const effectiveChordTypes = s.allChordTypesEnabled
+      ? ALL_CHORD_TYPES
+      : [...new Set([
+          ...s.selectedChordTypes,
+          ...CHORD_GROUPS.flatMap((g) => s.allGroupsEnabled[g.label] ? g.types : []),
+        ])];
+    const effectiveExtensions = s.allExtensionsEnabled ? ALL_EXTENSION_VALUES : s.allowedExtensions;
+
+    return buildChordPool({
+      selectedRoots: effectiveRoots,
+      selectedChordTypes: effectiveChordTypes,
+      allowedExtensions: effectiveExtensions,
+      selectedKeys: effectiveKeys,
+    });
+  }, [
+    state.settings.allRootsEnabled,
+    state.settings.selectedRoots,
+    state.settings.allKeysEnabled,
+    state.settings.selectedKeys,
+    state.settings.allChordTypesEnabled,
+    state.settings.allGroupsEnabled,
+    state.settings.selectedChordTypes,
+    state.settings.allExtensionsEnabled,
+    state.settings.allowedExtensions,
+  ]);
 
   const value = useMemo(() => ({ state, dispatch, chordPool }), [state, chordPool]);
 

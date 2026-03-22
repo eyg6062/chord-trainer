@@ -6,7 +6,7 @@ interface Props {
   label: string;
   options: string[];           // e.g. ["C major", "C minor", ...] or ["C","C#",...]
   selected: string[];
-  allSelected: boolean;        // whether the "All" toggle is on
+  allEnabled: boolean;         // whether the "All" toggle is on
   onToggleAll: () => void;
   onToggle: (option: string) => void;
 }
@@ -15,7 +15,7 @@ export function NoteSelector({
   label,
   options,
   selected,
-  allSelected,
+  allEnabled,
   onToggleAll,
   onToggle,
 }: Props) {
@@ -26,7 +26,7 @@ export function NoteSelector({
         <label className="flex items-center gap-1.5 text-sm text-neutral-400 cursor-pointer">
           <input
             type="checkbox"
-            checked={allSelected}
+            checked={allEnabled}
             onChange={onToggleAll}
             className="rounded accent-indigo-500"
           />
@@ -37,18 +37,18 @@ export function NoteSelector({
       <div className="flex flex-wrap gap-1.5">
         {options.map((option) => {
           const isSelected = selected.includes(option);
+          const isHalfLit = !isSelected && allEnabled;
           return (
             <button
               key={option}
               onClick={() => onToggle(option)}
-              disabled={allSelected}
-              className={`px-2.5 py-1 text-xs font-medium rounded-md border transition-colors
+              className={`px-2.5 py-1 text-xs font-medium rounded-md border transition-colors cursor-pointer
                 ${isSelected
                   ? 'bg-indigo-500 border-indigo-500 text-white'
-                  : 'bg-neutral-800 border-neutral-600 text-neutral-300 hover:border-indigo-400'
-                }
-                ${allSelected ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-              `}
+                  : isHalfLit
+                    ? 'bg-indigo-500/25 border-indigo-400/40 text-indigo-300/70'
+                    : 'bg-neutral-800 border-neutral-600 text-neutral-300 hover:border-indigo-400'
+                }`}
             >
               {option}
             </button>
