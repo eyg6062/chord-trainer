@@ -53,7 +53,7 @@ function GroupRow({
         <label className="flex items-center gap-1 text-xs text-neutral-400 cursor-pointer">
           <input
             type="checkbox"
-            checked={anyAllEnabled}
+            checked={groupAllEnabled}
             onChange={() => onToggleGroup(group.label)}
             className="rounded accent-indigo-500"
           />
