@@ -86,5 +86,5 @@ export function useMetronome() {
       clearInterval(id);
       cancelled = true;
     };
-  }, [practice.isRunning, settings.bpm]);
+  }, [practice.isRunning]);
 }
