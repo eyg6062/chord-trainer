@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { pickRandomChord } from '../../logic/chordGeneration';
+import { useMetronome } from '../../hooks/useMetronome';
 import { CurrentChordDisplay } from './CurrentChordDisplay';
 import { MetronomeDots } from './MetronomeDots';
 import { NextChordPreview } from './NextChordPreview';
@@ -11,13 +12,31 @@ export function PracticeArea() {
   const { state, dispatch, chordPool } = useApp();
   const { practice, settings } = state;
 
-  // Regenerate the full queue whenever the chord pool changes (covers first load,
-  // empty pool, and any setting change that affects which chords are valid).
+  useMetronome();
+
+  // Initial chord generation on mount only
   useEffect(() => {
+    if (chordPool.length > 0) {
+      dispatch({
+        type: 'INIT_CHORDS',
+        payload: {
+          currentChord: pickRandomChord(chordPool),
+          nextChords: Array.from({ length: settings.nextChordPreviewCount }, () => pickRandomChord(chordPool)!),
+        },
+      });
+    }
+  }, []);
+
+  // Chord pool settings changed → pause + regenerate chords
+  const prevChordPoolRef = useRef(chordPool);
+  useEffect(() => {
+    if (prevChordPoolRef.current === chordPool) return;
+    prevChordPoolRef.current = chordPool;
+    dispatch({ type: 'PAUSE_PRACTICE' });
     dispatch({
       type: 'INIT_CHORDS',
       payload: {
-        currentChord: pickRandomChord(chordPool),
+        currentChord: chordPool.length > 0 ? pickRandomChord(chordPool) : null,
         nextChords: chordPool.length > 0
           ? Array.from({ length: settings.nextChordPreviewCount }, () => pickRandomChord(chordPool)!)
           : [],
@@ -25,8 +44,7 @@ export function PracticeArea() {
     });
   }, [chordPool]);
 
-  // Grow the queue when the preview count increases (shrinking is handled
-  // visually by NextChordPreview slicing to previewCount).
+  // Preview count increased → grow the queue without touching the current chord
   useEffect(() => {
     if (practice.currentChord === null || chordPool.length === 0) return;
     const missing = settings.nextChordPreviewCount - practice.nextChords.length;
@@ -44,13 +62,34 @@ export function PracticeArea() {
     }
   }, [settings.nextChordPreviewCount]);
 
+  function handleStart() {
+    dispatch({ type: 'RESUME_PRACTICE' });
+  }
+
+  function handlePause() {
+    dispatch({ type: 'PAUSE_PRACTICE' });
+  }
+
+  function handleRestart() {
+    dispatch({ type: 'PAUSE_PRACTICE' });
+    dispatch({
+      type: 'INIT_CHORDS',
+      payload: {
+        currentChord: chordPool.length > 0 ? pickRandomChord(chordPool) : null,
+        nextChords: chordPool.length > 0
+          ? Array.from({ length: settings.nextChordPreviewCount }, () => pickRandomChord(chordPool)!)
+          : [],
+      },
+    });
+  }
+
   function handleNext() {
     dispatch({ type: 'SKIP_CHORD', payload: { newChord: pickRandomChord(chordPool) } });
   }
 
   return (
     <div className="flex gap-4 p-6">
-      {/* Left column: chord history — TODO: pass real passedChords once history display is implemented */}
+      {/* Left column: chord history */}
       <aside className="flex-none pt-2">
         <PassedChordsList passedChords={[]} />
       </aside>
@@ -77,8 +116,9 @@ export function PracticeArea() {
           isRunning={practice.isRunning}
           metronomeEnabled={settings.metronomeEnabled}
           hasCurrentChord={chordPool.length > 0}
-          onStart={() => {/* TODO: wire when useMetronome is implemented */}}
-          onPause={() => {/* TODO: wire when useMetronome is implemented */}}
+          onStart={handleStart}
+          onPause={handlePause}
+          onRestart={handleRestart}
           onNext={handleNext}
           onPlayChord={() => {/* TODO: wire when useAudio is implemented */}}
         />

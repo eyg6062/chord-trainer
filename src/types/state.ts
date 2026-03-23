@@ -67,6 +67,7 @@ export type Action =
   // Practice lifecycle
   | { type: 'INIT_CHORDS'; payload: { currentChord: Chord | null; nextChords: Chord[] } }
   | { type: 'START_PRACTICE'; payload: { pool: Chord[] } }
+  | { type: 'RESUME_PRACTICE' }
   | { type: 'PAUSE_PRACTICE' }
   | { type: 'ADVANCE_CHORD'; payload: { feedback: ChordFeedback; newChord: Chord | null } }
   | { type: 'SKIP_CHORD'; payload: { newChord: Chord | null } }

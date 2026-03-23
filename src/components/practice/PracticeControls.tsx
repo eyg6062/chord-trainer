@@ -2,9 +2,9 @@ interface Props {
   isRunning: boolean;
   metronomeEnabled: boolean;
   hasCurrentChord: boolean;
-  // TODO: wire these to real handlers
   onStart: () => void;
   onPause: () => void;
+  onRestart: () => void;
   onNext: () => void;
   onPlayChord: () => void;
 }
@@ -15,6 +15,7 @@ export function PracticeControls({
   hasCurrentChord,
   onStart,
   onPause,
+  onRestart,
   onNext,
   onPlayChord,
 }: Props) {
@@ -42,6 +43,15 @@ export function PracticeControls({
           Start
         </button>
       )}
+
+      {/* Restart — always enabled */}
+      <button
+        onClick={onRestart}
+        className="px-4 py-2 rounded-lg bg-neutral-700 text-neutral-200 font-medium
+                   hover:bg-neutral-600 transition-colors"
+      >
+        Restart
+      </button>
 
       {/* Next — always available when there's a chord */}
       <button
