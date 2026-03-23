@@ -27,11 +27,11 @@ export function PracticeArea() {
     }
   }, []);
 
-  // Settings change → pause + regenerate chords
-  const prevSettingsRef = useRef(state.settings);
+  // Chord pool settings changed → pause + regenerate chords
+  const prevChordPoolRef = useRef(chordPool);
   useEffect(() => {
-    if (prevSettingsRef.current === state.settings) return;
-    prevSettingsRef.current = state.settings;
+    if (prevChordPoolRef.current === chordPool) return;
+    prevChordPoolRef.current = chordPool;
     dispatch({ type: 'PAUSE_PRACTICE' });
     dispatch({
       type: 'INIT_CHORDS',
@@ -42,7 +42,25 @@ export function PracticeArea() {
           : [],
       },
     });
-  }, [state.settings]);
+  }, [chordPool]);
+
+  // Preview count increased → grow the queue without touching the current chord
+  useEffect(() => {
+    if (practice.currentChord === null || chordPool.length === 0) return;
+    const missing = settings.nextChordPreviewCount - practice.nextChords.length;
+    if (missing > 0) {
+      dispatch({
+        type: 'INIT_CHORDS',
+        payload: {
+          currentChord: practice.currentChord,
+          nextChords: [
+            ...practice.nextChords,
+            ...Array.from({ length: missing }, () => pickRandomChord(chordPool)!),
+          ],
+        },
+      });
+    }
+  }, [settings.nextChordPreviewCount]);
 
   function handleStart() {
     dispatch({ type: 'RESUME_PRACTICE' });
