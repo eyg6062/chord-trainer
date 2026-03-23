@@ -64,7 +64,7 @@ function advanceChord(
     currentChord: next ?? newChord,
     nextChords: next !== undefined ? [...rest, ...(newChord ? [newChord] : [])] : [],
     passedChords: newPassed,
-    currentTick: 0,
+    currentTick: 1,
     currentFeedback: 'neutral',
     notesHitThisChord: new Set(),
     wrongNotePlayedThisChord: false,
@@ -183,6 +183,9 @@ export function reducer(state: AppState, action: Action): AppState {
         },
       };
     }
+
+    case 'RESUME_PRACTICE':
+      return { ...state, practice: { ...state.practice, isRunning: true } };
 
     case 'PAUSE_PRACTICE':
       return { ...state, practice: { ...state.practice, isRunning: false } };

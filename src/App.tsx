@@ -119,9 +119,9 @@ function App() {
         bpm={settings.bpm}
         ticksPerChord={settings.ticksPerChord}
         nextChordPreviewCount={settings.nextChordPreviewCount}
-        onMetronomeToggle={() => {}}
-        onBpmChange={() => {}}
-        onTicksChange={() => {}}
+        onMetronomeToggle={() => dispatch({ type: 'SET_METRONOME_ENABLED', payload: !settings.metronomeEnabled })}
+        onBpmChange={(bpm) => dispatch({ type: 'SET_BPM', payload: bpm })}
+        onTicksChange={(ticks) => dispatch({ type: 'SET_TICKS_PER_CHORD', payload: ticks })}
         onPreviewCountChange={(count) => dispatch({ type: 'SET_NEXT_CHORD_PREVIEW_COUNT', payload: count })}
         // Chord pool
         allKeysEnabled={settings.allKeysEnabled}
