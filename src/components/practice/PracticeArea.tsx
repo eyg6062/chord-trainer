@@ -1,67 +1,58 @@
+import { useEffect } from 'react';
+import { useApp } from '../../context/AppContext';
+import { pickRandomChord } from '../../logic/chordGeneration';
 import { CurrentChordDisplay } from './CurrentChordDisplay';
 import { MetronomeDots } from './MetronomeDots';
 import { NextChordPreview } from './NextChordPreview';
 import { PassedChordsList } from './PassedChordsList';
 import { PracticeControls } from './PracticeControls';
 
-// TODO: replace with useApp() once AppContext is wired up
-// Placeholder props for skeleton demonstration
-interface Props {
-  // Provided by AppContext / hooks in the real implementation
-}
+export function PracticeArea() {
+  const { state, dispatch, chordPool } = useApp();
+  const { practice } = state;
 
-export function PracticeArea(_props: Props) {
-  // TODO: const { state, dispatch } = useApp();
-  // TODO: const { playChord } = useAudio();
-  // TODO: useMidi();
-  // TODO: useMetronome();
+  // Auto-pick the first chord when the pool becomes available
+  useEffect(() => {
+    if (practice.currentChord === null && chordPool.length > 0) {
+      dispatch({ type: 'SKIP_CHORD', payload: { newChord: pickRandomChord(chordPool) } });
+    }
+  }, [chordPool]);
 
-  // Placeholder state for layout preview
-  const placeholderChord = { root: 'D' as const, chordType: 'm7' as const, extensions: [] };
-  const placeholderNext = [
-    { root: 'G' as const, chordType: '7' as const, extensions: [] },
-    { root: 'C' as const, chordType: 'Major' as const, extensions: [] },
-  ];
+  function handleNext() {
+    dispatch({ type: 'SKIP_CHORD', payload: { newChord: pickRandomChord(chordPool) } });
+  }
 
   return (
     <div className="flex gap-4 p-6">
-      {/* Left column: chord history */}
+      {/* Left column: chord history — TODO: pass real passedChords once history display is implemented */}
       <aside className="flex-none pt-2">
-        <PassedChordsList
-          passedChords={[
-            { chord: { root: 'A', chordType: 'minor', extensions: [] }, feedback: 'correct' },
-            { chord: { root: 'E', chordType: 'm7b5', extensions: [] }, feedback: 'wrong' },
-            { chord: { root: 'F', chordType: 'Major', extensions: [] }, feedback: 'correct-with-wrong' },
-          ]}
-        />
+        <PassedChordsList passedChords={[]} />
       </aside>
 
       {/* Center column: main practice display */}
       <div className="flex-1 flex flex-col items-center">
         <CurrentChordDisplay
-          chord={placeholderChord}
-          feedback="neutral"
+          chord={practice.currentChord}
+          feedback={practice.currentFeedback}
         />
 
         <MetronomeDots
-          totalTicks={4}
-          currentTick={2}
-          enabled={true}
+          totalTicks={state.settings.ticksPerChord}
+          currentTick={practice.currentTick}
+          enabled={state.settings.metronomeEnabled}
         />
 
-        <NextChordPreview
-          chords={placeholderNext}
-          previewCount={2}
-        />
+        {/* TODO: pass real nextChords and previewCount once preview is implemented */}
+        <NextChordPreview chords={[]} previewCount={0} />
 
         <PracticeControls
-          isRunning={false}
-          metronomeEnabled={true}
-          hasCurrentChord={true}
-          onStart={() => {/* TODO */}}
-          onPause={() => {/* TODO */}}
-          onNext={() => {/* TODO */}}
-          onPlayChord={() => {/* TODO */}}
+          isRunning={practice.isRunning}
+          metronomeEnabled={state.settings.metronomeEnabled}
+          hasCurrentChord={chordPool.length > 0}
+          onStart={() => {/* TODO: wire when useMetronome is implemented */}}
+          onPause={() => {/* TODO: wire when useMetronome is implemented */}}
+          onNext={handleNext}
+          onPlayChord={() => {/* TODO: wire when useAudio is implemented */}}
         />
       </div>
     </div>
