@@ -122,7 +122,7 @@ function App() {
         onMetronomeToggle={() => {}}
         onBpmChange={() => {}}
         onTicksChange={() => {}}
-        onPreviewCountChange={() => {}}
+        onPreviewCountChange={(count) => dispatch({ type: 'SET_NEXT_CHORD_PREVIEW_COUNT', payload: count })}
         // Chord pool
         allKeysEnabled={settings.allKeysEnabled}
         selectedKeys={settings.selectedKeys}

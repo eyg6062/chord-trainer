@@ -65,6 +65,7 @@ export type Action =
   | { type: 'SET_MIDI_DEVICES'; payload: MidiDevice[] }
   | { type: 'NOTE_ON'; payload: { pitchClass: number } }
   // Practice lifecycle
+  | { type: 'INIT_CHORDS'; payload: { currentChord: Chord | null; nextChords: Chord[] } }
   | { type: 'START_PRACTICE'; payload: { pool: Chord[] } }
   | { type: 'PAUSE_PRACTICE' }
   | { type: 'ADVANCE_CHORD'; payload: { feedback: ChordFeedback; newChord: Chord | null } }

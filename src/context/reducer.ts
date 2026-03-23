@@ -145,6 +145,23 @@ export function reducer(state: AppState, action: Action): AppState {
     }
 
     // ── Practice lifecycle ────────────────────────────────────────────────────
+    case 'INIT_CHORDS': {
+      const { currentChord, nextChords } = action.payload;
+      return {
+        ...state,
+        practice: {
+          ...state.practice,
+          currentChord,
+          nextChords,
+          currentTick: 0,
+          currentFeedback: 'neutral',
+          notesHitThisChord: new Set(),
+          wrongNotePlayedThisChord: false,
+          readyToAdvance: false,
+        },
+      };
+    }
+
     case 'START_PRACTICE': {
       const { pool } = action.payload;
       if (pool.length === 0) return state;

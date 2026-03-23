@@ -9,14 +9,40 @@ import { PracticeControls } from './PracticeControls';
 
 export function PracticeArea() {
   const { state, dispatch, chordPool } = useApp();
-  const { practice } = state;
+  const { practice, settings } = state;
 
-  // Auto-pick the first chord when the pool becomes available
+  // Regenerate the full queue whenever the chord pool changes (covers first load,
+  // empty pool, and any setting change that affects which chords are valid).
   useEffect(() => {
-    if (practice.currentChord === null && chordPool.length > 0) {
-      dispatch({ type: 'SKIP_CHORD', payload: { newChord: pickRandomChord(chordPool) } });
-    }
+    dispatch({
+      type: 'INIT_CHORDS',
+      payload: {
+        currentChord: pickRandomChord(chordPool),
+        nextChords: chordPool.length > 0
+          ? Array.from({ length: settings.nextChordPreviewCount }, () => pickRandomChord(chordPool)!)
+          : [],
+      },
+    });
   }, [chordPool]);
+
+  // Grow the queue when the preview count increases (shrinking is handled
+  // visually by NextChordPreview slicing to previewCount).
+  useEffect(() => {
+    if (practice.currentChord === null || chordPool.length === 0) return;
+    const missing = settings.nextChordPreviewCount - practice.nextChords.length;
+    if (missing > 0) {
+      dispatch({
+        type: 'INIT_CHORDS',
+        payload: {
+          currentChord: practice.currentChord,
+          nextChords: [
+            ...practice.nextChords,
+            ...Array.from({ length: missing }, () => pickRandomChord(chordPool)!),
+          ],
+        },
+      });
+    }
+  }, [settings.nextChordPreviewCount]);
 
   function handleNext() {
     dispatch({ type: 'SKIP_CHORD', payload: { newChord: pickRandomChord(chordPool) } });
@@ -37,17 +63,19 @@ export function PracticeArea() {
         />
 
         <MetronomeDots
-          totalTicks={state.settings.ticksPerChord}
+          totalTicks={settings.ticksPerChord}
           currentTick={practice.currentTick}
-          enabled={state.settings.metronomeEnabled}
+          enabled={settings.metronomeEnabled}
         />
 
-        {/* TODO: pass real nextChords and previewCount once preview is implemented */}
-        <NextChordPreview chords={[]} previewCount={0} />
+        <NextChordPreview
+          chords={practice.nextChords}
+          previewCount={settings.nextChordPreviewCount}
+        />
 
         <PracticeControls
           isRunning={practice.isRunning}
-          metronomeEnabled={state.settings.metronomeEnabled}
+          metronomeEnabled={settings.metronomeEnabled}
           hasCurrentChord={chordPool.length > 0}
           onStart={() => {/* TODO: wire when useMetronome is implemented */}}
           onPause={() => {/* TODO: wire when useMetronome is implemented */}}
