@@ -1,3 +1,5 @@
+import { SliderNumberInput } from './SliderNumberInput';
+
 interface Props {
   enabled: boolean;
   bpm: number;
@@ -5,43 +7,6 @@ interface Props {
   onToggle: () => void;
   onBpmChange: (bpm: number) => void;
   onTicksChange: (ticks: number) => void;
-}
-
-interface SliderNumberInputProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  onChange: (value: number) => void;
-}
-
-function SliderNumberInput({ label, value, min, max, onChange }: SliderNumberInputProps) {
-  const handleChange = (raw: number) => {
-    onChange(Math.min(max, Math.max(min, raw)));
-  };
-
-  return (
-    <div className="flex items-center gap-3">
-      <label className="text-xs text-neutral-400 w-28 shrink-0">{label}</label>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={value}
-        onChange={(e) => handleChange(Number(e.target.value))}
-        className="flex-1 accent-indigo-500"
-      />
-      <input
-        type="number"
-        min={min}
-        max={max}
-        value={value}
-        onChange={(e) => handleChange(Number(e.target.value))}
-        className="w-16 text-sm border border-neutral-600 rounded-md px-2 py-1
-                   text-center bg-neutral-800 text-neutral-200"
-      />
-    </div>
-  );
 }
 
 export function MetronomeSettings({
