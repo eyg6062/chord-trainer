@@ -130,6 +130,9 @@ export function PracticeArea() {
           onPlayChord={() => { if (practice.currentChord) playChord(practice.currentChord); }}
         />
       </div>
+
+      {/* Right spacer: matches aside width so center column is truly centered */}
+      <div className="flex-none w-36" />
     </div>
   );
 }
