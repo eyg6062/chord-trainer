@@ -98,22 +98,27 @@ export function PracticeArea() {
 
       {/* Center column: main practice display */}
       <div className="flex-1 flex flex-col items-center">
-        <CurrentChordDisplay
-          chord={practice.currentChord}
-          feedback={practice.currentFeedback}
-        />
 
-        <MetronomeDots
-          totalTicks={settings.ticksPerChord}
-          currentTick={practice.currentTick}
-          enabled={settings.metronomeEnabled}
-        />
+        {/* Group 1: fixed-height — elements center when some are hidden */}
+        <div className="flex flex-col items-center justify-center w-full h-[17rem]">
+          <CurrentChordDisplay
+            chord={practice.currentChord}
+            feedback={practice.currentFeedback}
+          />
 
-        <NextChordPreview
-          chords={practice.nextChords}
-          previewCount={settings.nextChordPreviewCount}
-        />
+          <MetronomeDots
+            totalTicks={settings.ticksPerChord}
+            currentTick={practice.currentTick}
+            enabled={settings.metronomeEnabled}
+          />
 
+          <NextChordPreview
+            chords={practice.nextChords}
+            previewCount={settings.nextChordPreviewCount}
+          />
+        </div>
+
+        {/* Group 2: practice controls */}
         <PracticeControls
           isRunning={practice.isRunning}
           metronomeEnabled={settings.metronomeEnabled}
