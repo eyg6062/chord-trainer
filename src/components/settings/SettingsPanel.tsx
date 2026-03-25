@@ -46,65 +46,79 @@ interface Props {
   onToggleExtension: (ext: Extension) => void;
 }
 
+const box = 'border border-neutral-700 rounded-lg p-4';
+
 export function SettingsPanel(props: Props) {
   return (
-    <section className="border-t border-neutral-700 bg-neutral-900 p-6 space-y-6">
+    <section className="border-t border-neutral-700 bg-neutral-900 p-6 space-y-4">
       <h2 className="text-base font-semibold text-neutral-200">Settings</h2>
 
-      {/* Row 1: MIDI + Metronome side by side */}
-      <div className="flex flex-wrap gap-8">
-        <MidiSettings
-          enabled={props.midiEnabled}
-          devices={props.midiDevices}
-          selectedDeviceId={props.selectedMidiDeviceId}
-          onToggle={props.onMidiToggle}
-          onSelectDevice={props.onMidiSelectDevice}
-          onRefresh={props.onMidiRefresh}
-        />
-        <MetronomeSettings
-          enabled={props.metronomeEnabled}
-          bpm={props.bpm}
-          ticksPerChord={props.ticksPerChord}
-          nextChordPreviewCount={props.nextChordPreviewCount}
-          onToggle={props.onMetronomeToggle}
-          onBpmChange={props.onBpmChange}
-          onTicksChange={props.onTicksChange}
-          onPreviewCountChange={props.onPreviewCountChange}
-        />
+      {/* Row 1: MIDI + Metronome */}
+      <div className="flex flex-wrap gap-4">
+        <div className={box}>
+          <MidiSettings
+            enabled={props.midiEnabled}
+            devices={props.midiDevices}
+            selectedDeviceId={props.selectedMidiDeviceId}
+            onToggle={props.onMidiToggle}
+            onSelectDevice={props.onMidiSelectDevice}
+            onRefresh={props.onMidiRefresh}
+          />
+        </div>
+        <div className={box}>
+          <MetronomeSettings
+            enabled={props.metronomeEnabled}
+            bpm={props.bpm}
+            ticksPerChord={props.ticksPerChord}
+            nextChordPreviewCount={props.nextChordPreviewCount}
+            onToggle={props.onMetronomeToggle}
+            onBpmChange={props.onBpmChange}
+            onTicksChange={props.onTicksChange}
+            onPreviewCountChange={props.onPreviewCountChange}
+          />
+        </div>
       </div>
 
-      {/* Row 2: Key selector */}
-      <KeySelector
-        selectedKeys={props.selectedKeys}
-        allKeysEnabled={props.allKeysEnabled}
-        onToggleAll={props.onToggleAllKeys}
-        onToggle={props.onToggleKey}
-      />
+      {/* Row 2: Chord Types | (Roots + Keys + Extensions) */}
+      <div className="flex gap-4 items-start">
+        <div className={`${box} flex-1`}>
+          <ChordTypeSelector
+            selectedChordTypes={props.selectedChordTypes}
+            allChordTypesEnabled={props.allChordTypesEnabled}
+            allGroupsEnabled={props.allGroupsEnabled}
+            onToggleAll={props.onToggleAllChordTypes}
+            onToggleGroup={props.onToggleChordTypeGroup}
+            onToggle={props.onToggleChordType}
+          />
+        </div>
 
-      {/* Row 3: Root selector */}
-      <RootSelector
-        selectedRoots={props.selectedRoots}
-        allRootsEnabled={props.allRootsEnabled}
-        onToggleAll={props.onToggleAllRoots}
-        onToggle={props.onToggleRoot}
-      />
-
-      {/* Row 4: Chord types + extensions */}
-      <ChordTypeSelector
-        selectedChordTypes={props.selectedChordTypes}
-        allChordTypesEnabled={props.allChordTypesEnabled}
-        allGroupsEnabled={props.allGroupsEnabled}
-        onToggleAll={props.onToggleAllChordTypes}
-        onToggleGroup={props.onToggleChordTypeGroup}
-        onToggle={props.onToggleChordType}
-      />
-
-      <ExtensionSelector
-        allowedExtensions={props.allowedExtensions}
-        allExtensionsEnabled={props.allExtensionsEnabled}
-        onToggleAll={props.onToggleAllExtensions}
-        onToggle={props.onToggleExtension}
-      />
+        <div className="flex-1 flex flex-col gap-4">
+          <div className={box}>
+            <RootSelector
+              selectedRoots={props.selectedRoots}
+              allRootsEnabled={props.allRootsEnabled}
+              onToggleAll={props.onToggleAllRoots}
+              onToggle={props.onToggleRoot}
+            />
+          </div>
+          <div className={box}>
+            <KeySelector
+              selectedKeys={props.selectedKeys}
+              allKeysEnabled={props.allKeysEnabled}
+              onToggleAll={props.onToggleAllKeys}
+              onToggle={props.onToggleKey}
+            />
+          </div>
+          <div className={box}>
+            <ExtensionSelector
+              allowedExtensions={props.allowedExtensions}
+              allExtensionsEnabled={props.allExtensionsEnabled}
+              onToggleAll={props.onToggleAllExtensions}
+              onToggle={props.onToggleExtension}
+            />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
