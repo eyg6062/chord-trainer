@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { pickRandomChord } from '../../logic/chordGeneration';
 import { useMetronome } from '../../hooks/useMetronome';
+import { useAudio } from '../../hooks/useAudio';
 import { CurrentChordDisplay } from './CurrentChordDisplay';
 import { MetronomeDots } from './MetronomeDots';
 import { NextChordPreview } from './NextChordPreview';
@@ -13,6 +14,7 @@ export function PracticeArea() {
   const { practice, settings } = state;
 
   useMetronome();
+  const { playChord } = useAudio();
 
   // Initial chord generation on mount only
   useEffect(() => {
@@ -120,7 +122,7 @@ export function PracticeArea() {
           onPause={handlePause}
           onRestart={handleRestart}
           onNext={handleNext}
-          onPlayChord={() => {/* TODO: wire when useAudio is implemented */}}
+          onPlayChord={() => { if (practice.currentChord) playChord(practice.currentChord); }}
         />
       </div>
     </div>
