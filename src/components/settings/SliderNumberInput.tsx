@@ -28,7 +28,7 @@ export function SliderNumberInput({ label, value, min, max, onChange }: Props) {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 min-w-90">
       <label className="text-xs text-neutral-400 w-28 shrink-0">{label}</label>
       <input
         type="range"
@@ -47,7 +47,7 @@ export function SliderNumberInput({ label, value, min, max, onChange }: Props) {
         onFocus={(e) => e.currentTarget.select()}
         onBlur={() => commit(localValue)}
         onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
-        className="w-16 text-sm border border-neutral-600 rounded-md px-2 py-1
+        className="w-20 text-sm border border-neutral-600 rounded-md px-2 py-1
                    text-center bg-neutral-800 text-neutral-200"
       />
     </div>
