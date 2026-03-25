@@ -23,7 +23,8 @@ export interface Settings {
   allowedExtensions: Extension[];
 
   // Preview
-  nextChordPreviewCount: number;  // 0–4
+  chordPreviewEnabled: boolean;
+  nextChordPreviewCount: number;  // 1–4
 }
 
 export interface PracticeState {
@@ -60,6 +61,7 @@ export type Action =
   | { type: 'SET_SELECTED_CHORD_TYPES'; payload: ChordTypeName[] }
   | { type: 'SET_ALL_EXTENSIONS_ENABLED'; payload: boolean }
   | { type: 'SET_ALLOWED_EXTENSIONS'; payload: Extension[] }
+  | { type: 'SET_CHORD_PREVIEW_ENABLED'; payload: boolean }
   | { type: 'SET_NEXT_CHORD_PREVIEW_COUNT'; payload: number }
   // MIDI devices
   | { type: 'SET_MIDI_DEVICES'; payload: MidiDevice[] }

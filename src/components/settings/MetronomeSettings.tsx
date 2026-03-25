@@ -2,12 +2,9 @@ interface Props {
   enabled: boolean;
   bpm: number;
   ticksPerChord: number;
-  nextChordPreviewCount: number;
-  // TODO: wire to dispatch
   onToggle: () => void;
   onBpmChange: (bpm: number) => void;
   onTicksChange: (ticks: number) => void;
-  onPreviewCountChange: (count: number) => void;
 }
 
 interface SliderNumberInputProps {
@@ -51,11 +48,9 @@ export function MetronomeSettings({
   enabled,
   bpm,
   ticksPerChord,
-  nextChordPreviewCount,
   onToggle,
   onBpmChange,
   onTicksChange,
-  onPreviewCountChange,
 }: Props) {
   return (
     <div className="space-y-3">
@@ -88,15 +83,6 @@ export function MetronomeSettings({
           onChange={onTicksChange}
         />
       </div>
-
-      {/* Preview count is independent of metronome */}
-      <SliderNumberInput
-        label="Chords preview"
-        value={nextChordPreviewCount}
-        min={0}
-        max={4}
-        onChange={onPreviewCountChange}
-      />
     </div>
   );
 }

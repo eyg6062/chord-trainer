@@ -1,5 +1,6 @@
 import { MidiSettings } from './MidiSettings';
 import { MetronomeSettings } from './MetronomeSettings';
+import { ChordPreviewSettings } from './ChordPreviewSettings';
 import { KeySelector } from './KeySelector';
 import { RootSelector } from './RootSelector';
 import { ChordTypeSelector } from './ChordTypeSelector';
@@ -16,6 +17,8 @@ interface Props {
   metronomeEnabled: boolean;
   bpm: number;
   ticksPerChord: number;
+  // Chord preview
+  chordPreviewEnabled: boolean;
   nextChordPreviewCount: number;
   // Chord pool
   allKeysEnabled: boolean;
@@ -34,6 +37,7 @@ interface Props {
   onMetronomeToggle: () => void;
   onBpmChange: (bpm: number) => void;
   onTicksChange: (ticks: number) => void;
+  onPreviewToggle: () => void;
   onPreviewCountChange: (count: number) => void;
   onToggleAllKeys: () => void;
   onToggleKey: (key: string) => void;
@@ -53,7 +57,7 @@ export function SettingsPanel(props: Props) {
     <section className="border-t border-neutral-700 bg-neutral-900 p-6 space-y-4">
       <h2 className="text-base font-semibold text-neutral-200">Settings</h2>
 
-      {/* Row 1: MIDI + Metronome */}
+      {/* Row 1: MIDI + Metronome + Chord Preview */}
       <div className="flex flex-wrap gap-4">
         <div className={box}>
           <MidiSettings
@@ -70,10 +74,16 @@ export function SettingsPanel(props: Props) {
             enabled={props.metronomeEnabled}
             bpm={props.bpm}
             ticksPerChord={props.ticksPerChord}
-            nextChordPreviewCount={props.nextChordPreviewCount}
             onToggle={props.onMetronomeToggle}
             onBpmChange={props.onBpmChange}
             onTicksChange={props.onTicksChange}
+          />
+        </div>
+        <div className={box}>
+          <ChordPreviewSettings
+            enabled={props.chordPreviewEnabled}
+            previewCount={props.nextChordPreviewCount}
+            onToggle={props.onPreviewToggle}
             onPreviewCountChange={props.onPreviewCountChange}
           />
         </div>

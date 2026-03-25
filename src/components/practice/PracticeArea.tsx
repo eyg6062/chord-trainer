@@ -114,7 +114,7 @@ export function PracticeArea() {
 
           <NextChordPreview
             chords={practice.nextChords}
-            previewCount={settings.nextChordPreviewCount}
+            previewCount={settings.chordPreviewEnabled ? settings.nextChordPreviewCount : 0}
           />
         </div>
 

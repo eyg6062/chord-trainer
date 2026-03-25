@@ -19,6 +19,7 @@ export const DEFAULT_SETTINGS: Settings = {
   selectedChordTypes: ['Major', 'minor'],
   allExtensionsEnabled: false,
   allowedExtensions: [],
+  chordPreviewEnabled: true,
   nextChordPreviewCount: 2,
 };
 
@@ -118,6 +119,9 @@ export function reducer(state: AppState, action: Action): AppState {
 
     case 'SET_ALLOWED_EXTENSIONS':
       return { ...state, settings: { ...state.settings, allowedExtensions: action.payload } };
+
+    case 'SET_CHORD_PREVIEW_ENABLED':
+      return { ...state, settings: { ...state.settings, chordPreviewEnabled: action.payload } };
 
     case 'SET_NEXT_CHORD_PREVIEW_COUNT':
       return {
