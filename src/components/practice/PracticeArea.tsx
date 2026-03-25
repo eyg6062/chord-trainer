@@ -100,7 +100,7 @@ export function PracticeArea() {
       <div className="flex-1 flex flex-col items-center">
 
         {/* Group 1: fixed-height — elements center when some are hidden */}
-        <div className="flex flex-col items-center justify-center w-full h-[17rem]">
+        <div className="flex flex-col items-center justify-center w-full h-68">
           <CurrentChordDisplay
             chord={practice.currentChord}
             feedback={practice.currentFeedback}
