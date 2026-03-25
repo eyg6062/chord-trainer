@@ -1,4 +1,5 @@
 import type { Extension } from '../../types/chord';
+import { InfoTooltip } from './InfoTooltip';
 
 const ALL_EXTENSIONS: { value: Extension; label: string }[] = [
   { value: 'b5',  label: '♭5'  },
@@ -24,6 +25,7 @@ export function ExtensionSelector({ allowedExtensions, allExtensionsEnabled, onT
     <div className="space-y-2">
       <div className="flex items-center gap-3">
         <h3 className="text-sm font-semibold text-neutral-300">Note Extensions</h3>
+        <InfoTooltip text="Notes applied as optional modifiers on top of selected chord types. Selected extensions may be randomly applied to generated chords." />
         <label className="flex items-center gap-1.5 text-sm text-neutral-400 cursor-pointer">
           <input
             type="checkbox"
@@ -34,9 +36,6 @@ export function ExtensionSelector({ allowedExtensions, allExtensionsEnabled, onT
           All
         </label>
       </div>
-      <p className="text-xs text-neutral-500">
-        Applied as optional modifiers on top of selected chord types.
-      </p>
       <div className="flex flex-wrap gap-1.5">
         {ALL_EXTENSIONS.map(({ value, label }) => {
           const isSelected = allowedExtensions.includes(value);

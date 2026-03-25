@@ -2,11 +2,14 @@
  * Reusable multi-select grid for choosing note names.
  * Used by both KeySelector (24 major/minor options) and RootSelector (12 notes).
  */
+import { InfoTooltip } from './InfoTooltip';
+
 interface Props {
   label: string;
   options: string[];           // e.g. ["C major", "C minor", ...] or ["C","C#",...]
   selected: string[];
   allEnabled: boolean;         // whether the "All" toggle is on
+  tooltip?: string;
   onToggleAll: () => void;
   onToggle: (option: string) => void;
 }
@@ -16,6 +19,7 @@ export function NoteSelector({
   options,
   selected,
   allEnabled,
+  tooltip,
   onToggleAll,
   onToggle,
 }: Props) {
@@ -23,6 +27,7 @@ export function NoteSelector({
     <div className="space-y-2">
       <div className="flex items-center gap-3">
         <h3 className="text-sm font-semibold text-neutral-300">{label}</h3>
+        {tooltip && <InfoTooltip text={tooltip} />}
         <label className="flex items-center gap-1.5 text-sm text-neutral-400 cursor-pointer">
           <input
             type="checkbox"

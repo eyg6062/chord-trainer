@@ -18,10 +18,11 @@ interface Props {
 export function KeySelector({ selectedKeys, allKeysEnabled, onToggleAll, onToggle }: Props) {
   return (
     <NoteSelector
-      label="Keys"
+      label="Limit Keys"
       options={KEY_OPTIONS}
       selected={selectedKeys}
       allEnabled={allKeysEnabled}
+      tooltip="Filters chords to only those that naturally belong to the selected keys."
       onToggleAll={onToggleAll}
       onToggle={onToggle}
     />

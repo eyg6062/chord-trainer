@@ -112,19 +112,19 @@ export function SettingsPanel(props: Props) {
             />
           </div>
           <div className={box}>
-            <KeySelector
-              selectedKeys={props.selectedKeys}
-              allKeysEnabled={props.allKeysEnabled}
-              onToggleAll={props.onToggleAllKeys}
-              onToggle={props.onToggleKey}
-            />
-          </div>
-          <div className={box}>
             <ExtensionSelector
               allowedExtensions={props.allowedExtensions}
               allExtensionsEnabled={props.allExtensionsEnabled}
               onToggleAll={props.onToggleAllExtensions}
               onToggle={props.onToggleExtension}
+            />
+          </div>
+          <div className={box}>
+            <KeySelector
+              selectedKeys={props.selectedKeys}
+              allKeysEnabled={props.allKeysEnabled}
+              onToggleAll={props.onToggleAllKeys}
+              onToggle={props.onToggleKey}
             />
           </div>
         </div>
