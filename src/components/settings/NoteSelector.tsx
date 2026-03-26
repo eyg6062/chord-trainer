@@ -8,8 +8,11 @@ interface Props {
   label: string;
   options: string[];           // e.g. ["C major", "C minor", ...] or ["C","C#",...]
   selected: string[];
-  allEnabled: boolean;         // whether the "All" toggle is on
+  allEnabled: boolean;         // whether the "All"/"Enabled" toggle is on
   tooltip?: string;
+  checkboxLabel?: string;      // defaults to "All"
+  sectionDisabled?: boolean;   // when true, buttons are greyed out and non-interactive
+  noHalfLit?: boolean;         // when true, unselected buttons never show the half-lit state
   onToggleAll: () => void;
   onToggle: (option: string) => void;
 }
@@ -20,6 +23,9 @@ export function NoteSelector({
   selected,
   allEnabled,
   tooltip,
+  checkboxLabel,
+  sectionDisabled,
+  noHalfLit,
   onToggleAll,
   onToggle,
 }: Props) {
@@ -35,14 +41,14 @@ export function NoteSelector({
             onChange={onToggleAll}
             className="rounded accent-indigo-500"
           />
-          All
+          {checkboxLabel ?? 'All'}
         </label>
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
+      <div className={`flex flex-wrap gap-1.5${sectionDisabled ? ' opacity-50 pointer-events-none' : ''}`}>
         {options.map((option) => {
           const isSelected = selected.includes(option);
-          const isHalfLit = !isSelected && allEnabled;
+          const isHalfLit = !isSelected && allEnabled && !noHalfLit;
           return (
             <button
               key={option}

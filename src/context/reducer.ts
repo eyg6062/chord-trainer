@@ -10,7 +10,7 @@ export const DEFAULT_SETTINGS: Settings = {
   metronomeEnabled: true,
   bpm: 120,
   ticksPerChord: 4,
-  allKeysEnabled: false,
+  keysFilterEnabled: false,
   selectedKeys: [],
   allRootsEnabled: true,
   selectedRoots: [...CHROMATIC_NOTES],
@@ -93,8 +93,8 @@ export function reducer(state: AppState, action: Action): AppState {
     case 'SET_TICKS_PER_CHORD':
       return { ...state, settings: { ...state.settings, ticksPerChord: action.payload } };
 
-    case 'SET_ALL_KEYS_ENABLED':
-      return { ...state, settings: { ...state.settings, allKeysEnabled: action.payload } };
+    case 'SET_KEYS_FILTER_ENABLED':
+      return { ...state, settings: { ...state.settings, keysFilterEnabled: action.payload } };
 
     case 'SET_SELECTED_KEYS':
       return { ...state, settings: { ...state.settings, selectedKeys: action.payload } };

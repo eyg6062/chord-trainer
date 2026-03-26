@@ -10,14 +10,11 @@ function App() {
 
   // ── Keys ──────────────────────────────────────────────────────────────────
 
-  function handleToggleAllKeys() {
-    dispatch({ type: 'SET_ALL_KEYS_ENABLED', payload: !settings.allKeysEnabled });
+  function handleToggleKeysFilterEnabled() {
+    dispatch({ type: 'SET_KEYS_FILTER_ENABLED', payload: !settings.keysFilterEnabled });
   }
 
   function handleToggleKey(key: string) {
-    if (settings.allKeysEnabled) {
-      dispatch({ type: 'SET_ALL_KEYS_ENABLED', payload: false });
-    }
     const next = settings.selectedKeys.includes(key)
       ? settings.selectedKeys.filter((k) => k !== key)
       : [...settings.selectedKeys, key];
@@ -126,7 +123,7 @@ function App() {
         onPreviewToggle={() => dispatch({ type: 'SET_CHORD_PREVIEW_ENABLED', payload: !settings.chordPreviewEnabled })}
         onPreviewCountChange={(count) => dispatch({ type: 'SET_NEXT_CHORD_PREVIEW_COUNT', payload: count })}
         // Chord pool
-        allKeysEnabled={settings.allKeysEnabled}
+        keysFilterEnabled={settings.keysFilterEnabled}
         selectedKeys={settings.selectedKeys}
         allRootsEnabled={settings.allRootsEnabled}
         selectedRoots={settings.selectedRoots}
@@ -135,7 +132,7 @@ function App() {
         selectedChordTypes={settings.selectedChordTypes}
         allExtensionsEnabled={settings.allExtensionsEnabled}
         allowedExtensions={settings.allowedExtensions}
-        onToggleAllKeys={handleToggleAllKeys}
+        onToggleKeysFilterEnabled={handleToggleKeysFilterEnabled}
         onToggleKey={handleToggleKey}
         onToggleAllRoots={handleToggleAllRoots}
         onToggleRoot={handleToggleRoot}

@@ -12,7 +12,7 @@ export interface Settings {
   ticksPerChord: number;
 
   // Chord pool config
-  allKeysEnabled: boolean;
+  keysFilterEnabled: boolean;
   selectedKeys: string[];         // e.g. ["C major", "A minor"]
   allRootsEnabled: boolean;
   selectedRoots: NoteClass[];
@@ -52,7 +52,7 @@ export type Action =
   | { type: 'SET_METRONOME_ENABLED'; payload: boolean }
   | { type: 'SET_BPM'; payload: number }
   | { type: 'SET_TICKS_PER_CHORD'; payload: number }
-  | { type: 'SET_ALL_KEYS_ENABLED'; payload: boolean }
+  | { type: 'SET_KEYS_FILTER_ENABLED'; payload: boolean }
   | { type: 'SET_SELECTED_KEYS'; payload: string[] }
   | { type: 'SET_ALL_ROOTS_ENABLED'; payload: boolean }
   | { type: 'SET_SELECTED_ROOTS'; payload: NoteClass[] }

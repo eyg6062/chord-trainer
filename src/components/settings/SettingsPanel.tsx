@@ -21,7 +21,7 @@ interface Props {
   chordPreviewEnabled: boolean;
   nextChordPreviewCount: number;
   // Chord pool
-  allKeysEnabled: boolean;
+  keysFilterEnabled: boolean;
   selectedKeys: string[];
   allRootsEnabled: boolean;
   selectedRoots: NoteClass[];
@@ -39,7 +39,7 @@ interface Props {
   onTicksChange: (ticks: number) => void;
   onPreviewToggle: () => void;
   onPreviewCountChange: (count: number) => void;
-  onToggleAllKeys: () => void;
+  onToggleKeysFilterEnabled: () => void;
   onToggleKey: (key: string) => void;
   onToggleAllRoots: () => void;
   onToggleRoot: (root: NoteClass) => void;
@@ -122,8 +122,8 @@ export function SettingsPanel(props: Props) {
           <div className={box}>
             <KeySelector
               selectedKeys={props.selectedKeys}
-              allKeysEnabled={props.allKeysEnabled}
-              onToggleAll={props.onToggleAllKeys}
+              keysFilterEnabled={props.keysFilterEnabled}
+              onToggleKeysFilterEnabled={props.onToggleKeysFilterEnabled}
               onToggle={props.onToggleKey}
             />
           </div>

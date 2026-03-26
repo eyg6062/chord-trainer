@@ -10,20 +10,23 @@ const KEY_OPTIONS: string[] = CHROMATIC.flatMap((note) => [
 
 interface Props {
   selectedKeys: string[];
-  allKeysEnabled: boolean;
-  onToggleAll: () => void;
+  keysFilterEnabled: boolean;
+  onToggleKeysFilterEnabled: () => void;
   onToggle: (key: string) => void;
 }
 
-export function KeySelector({ selectedKeys, allKeysEnabled, onToggleAll, onToggle }: Props) {
+export function KeySelector({ selectedKeys, keysFilterEnabled, onToggleKeysFilterEnabled, onToggle }: Props) {
   return (
     <NoteSelector
       label="Limit Keys"
       options={KEY_OPTIONS}
       selected={selectedKeys}
-      allEnabled={allKeysEnabled}
+      allEnabled={keysFilterEnabled}
+      checkboxLabel="Enabled"
+      sectionDisabled={!keysFilterEnabled}
+      noHalfLit
       tooltip="Filters chords to only those that naturally belong to the selected keys."
-      onToggleAll={onToggleAll}
+      onToggleAll={onToggleKeysFilterEnabled}
       onToggle={onToggle}
     />
   );
