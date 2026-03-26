@@ -104,6 +104,7 @@ export function PracticeArea() {
           <CurrentChordDisplay
             chord={practice.currentChord}
             feedback={practice.currentFeedback}
+            isPoolEmpty={chordPool.length === 0}
           />
 
           <MetronomeDots

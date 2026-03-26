@@ -3,6 +3,7 @@ import type { Chord, ChordFeedback } from '../../types/chord';
 interface Props {
   chord: Chord | null;
   feedback: ChordFeedback;
+  isPoolEmpty: boolean;
 }
 
 const feedbackColorClass: Record<ChordFeedback, string> = {
@@ -13,7 +14,7 @@ const feedbackColorClass: Record<ChordFeedback, string> = {
   skipped:             'text-neutral-400',
 };
 
-export function CurrentChordDisplay({ chord, feedback }: Props) {
+export function CurrentChordDisplay({ chord, feedback, isPoolEmpty }: Props) {
   return (
     <div className="flex items-center justify-center h-48">
       {chord ? (
@@ -27,6 +28,11 @@ export function CurrentChordDisplay({ chord, feedback }: Props) {
               ))}
             </span>
           )}
+        </div>
+      ) : isPoolEmpty ? (
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-2xl font-semibold text-neutral-300">No chords available</span>
+          <span className="text-sm text-neutral-400">Adjust your chord selection settings</span>
         </div>
       ) : (
         <span className="text-4xl text-neutral-400">—</span>
