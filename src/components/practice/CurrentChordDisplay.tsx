@@ -31,7 +31,14 @@ export function CurrentChordDisplay({ chord, feedback, isPoolEmpty }: Props) {
         </div>
       ) : isPoolEmpty ? (
         <div className="flex flex-col items-center gap-1">
-          <span className="text-2xl font-semibold text-neutral-300">No chords available</span>
+          <div className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={2} fill="none" />
+              <line x1="12" y1="7" x2="12" y2="13" stroke="currentColor" strokeWidth={2} strokeLinecap="round" />
+              <circle cx="12" cy="17" r=".5" fill="currentColor" />
+            </svg>
+            <span className="text-2xl font-semibold text-neutral-300">No chords available</span>
+          </div>
           <span className="text-sm text-neutral-400">Adjust your chord selection settings</span>
         </div>
       ) : (
