@@ -5,11 +5,6 @@ interface Props {
   feedback: ChordFeedback;
 }
 
-// TODO: format chord name with proper symbols (e.g. ♭, ♯, °, +)
-function formatChordName(_chord: Chord): string {
-  return `${_chord.root}${_chord.chordType}${_chord.extensions.join('')}`;
-}
-
 const feedbackColorClass: Record<ChordFeedback, string> = {
   neutral:             'text-white',
   correct:             'text-green-500',
@@ -22,13 +17,19 @@ export function CurrentChordDisplay({ chord, feedback }: Props) {
   return (
     <div className="flex items-center justify-center h-48">
       {chord ? (
-        <span
-          className={`text-8xl font-bold tracking-tight transition-colors duration-150 ${feedbackColorClass[feedback]}`}
-        >
-          {formatChordName(chord)}
-        </span>
+        <div className={`flex items-baseline gap-3 transition-colors duration-150 ${feedbackColorClass[feedback]}`}>
+          <span className="text-8xl font-bold tracking-tight">{chord.root}</span>
+          <span className="text-8xl font-bold tracking-tight">{chord.chordType}</span>
+          {chord.extensions.length > 0 && (
+            <span className="flex gap-2 text-5xl font-bold self-start">
+              {chord.extensions.map((ext, i) => (
+                <span key={i}>{ext}</span>
+              ))}
+            </span>
+          )}
+        </div>
       ) : (
-        <span className="text-4x text-neutral-400">—</span>
+        <span className="text-4xl text-neutral-400">—</span>
       )}
     </div>
   );
