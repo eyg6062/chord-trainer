@@ -1,13 +1,9 @@
 import type { Chord } from '../../types/chord';
+import { formatChordName } from '../../logic/formatChord';
 
 interface Props {
   chords: Chord[];         // the upcoming chord queue
   previewCount: number;    // how many to show (0–4)
-}
-
-// TODO: reuse shared formatChordName util once extracted
-function formatChordName(chord: Chord): string {
-  return `${chord.root}${chord.chordType}${chord.extensions.join('')}`;
 }
 
 export function NextChordPreview({ chords, previewCount }: Props) {

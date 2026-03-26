@@ -1,4 +1,5 @@
 import type { ChordTypeName } from '../../types/chord';
+import { CHORDTYPENAME_TO_SETTINGS_UI_STRING } from '../../constants/uiMapping';
 
 interface ChordGroup {
   label: string;
@@ -76,7 +77,7 @@ function GroupRow({
                     : 'bg-neutral-800 border-neutral-600 text-neutral-300 hover:border-indigo-400'
                 }`}
             >
-              {type}
+              {CHORDTYPENAME_TO_SETTINGS_UI_STRING[type]}
             </button>
           );
         })}

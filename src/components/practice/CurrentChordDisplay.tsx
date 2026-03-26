@@ -1,4 +1,9 @@
 import type { Chord, ChordFeedback } from '../../types/chord';
+import {
+  NOTECLASS_TO_UI_STRING,
+  CHORDTYPENAME_TO_DISPLAY_CHORD_UI_STRING,
+  EXTENSION_TO_UI_STRING,
+} from '../../constants/uiMapping';
 
 interface Props {
   chord: Chord | null;
@@ -19,12 +24,12 @@ export function CurrentChordDisplay({ chord, feedback, isPoolEmpty }: Props) {
     <div className="flex items-center justify-center h-48">
       {chord ? (
         <div className={`flex items-baseline gap-3 transition-colors duration-150 ${feedbackColorClass[feedback]}`}>
-          <span className="text-8xl font-bold tracking-tight">{chord.root}</span>
-          <span className="text-8xl font-bold tracking-tight">{chord.chordType}</span>
+          <span className="text-8xl font-bold tracking-tight">{NOTECLASS_TO_UI_STRING[chord.root]}</span>
+          <span className="text-8xl font-bold tracking-tight">{CHORDTYPENAME_TO_DISPLAY_CHORD_UI_STRING[chord.chordType]}</span>
           {chord.extensions.length > 0 && (
             <span className="flex gap-2 text-5xl font-bold self-start">
               {chord.extensions.map((ext, i) => (
-                <span key={i}>{ext}</span>
+                <span key={i}>{EXTENSION_TO_UI_STRING[ext]}</span>
               ))}
             </span>
           )}

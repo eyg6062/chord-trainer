@@ -10,6 +10,7 @@ interface Props {
   selected: string[];
   allEnabled: boolean;         // whether the "All"/"Enabled" toggle is on
   tooltip?: string;
+  displayMap?: Record<string, string>; // optional value→label overrides for button text
   checkboxLabel?: string;      // defaults to "All"
   sectionDisabled?: boolean;   // when true, buttons are greyed out and non-interactive
   noHalfLit?: boolean;         // when true, unselected buttons never show the half-lit state
@@ -23,6 +24,7 @@ export function NoteSelector({
   selected,
   allEnabled,
   tooltip,
+  displayMap,
   checkboxLabel,
   sectionDisabled,
   noHalfLit,
@@ -61,7 +63,7 @@ export function NoteSelector({
                     : 'bg-neutral-800 border-neutral-600 text-neutral-300 hover:border-indigo-400'
                 }`}
             >
-              {option}
+              {displayMap ? (displayMap[option] ?? option) : option}
             </button>
           );
         })}

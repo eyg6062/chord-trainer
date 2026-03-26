@@ -1,4 +1,6 @@
 import { NoteSelector } from './NoteSelector';
+import { NOTECLASS_TO_UI_STRING } from '../../constants/uiMapping';
+import type { NoteClass } from '../../types/chord';
 
 const CHROMATIC = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'] as const;
 
@@ -7,6 +9,13 @@ const KEY_OPTIONS: string[] = CHROMATIC.flatMap((note) => [
   `${note} major`,
   `${note} minor`,
 ]);
+
+const KEY_DISPLAY_MAP: Record<string, string> = Object.fromEntries(
+  KEY_OPTIONS.map((key) => {
+    const [note, quality] = key.split(' ');
+    return [key, `${NOTECLASS_TO_UI_STRING[note as NoteClass]} ${quality}`];
+  })
+);
 
 interface Props {
   selectedKeys: string[];
@@ -22,6 +31,7 @@ export function KeySelector({ selectedKeys, keysFilterEnabled, onToggleKeysFilte
       options={KEY_OPTIONS}
       selected={selectedKeys}
       allEnabled={keysFilterEnabled}
+      displayMap={KEY_DISPLAY_MAP}
       checkboxLabel="Enabled"
       sectionDisabled={!keysFilterEnabled}
       noHalfLit
