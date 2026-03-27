@@ -38,7 +38,7 @@ export const CHORDTYPENAME_TO_SETTINGS_UI_STRING: Record<ChordTypeName, string> 
   '7': '7',
   'mM7': 'mM7',
   'dim7': '°7 (dim7)',
-  'm7b5': 'Cø7 (Half-Diminished)',
+  'm7b5': 'ø7 (Half-Diminished)',
   'augM7': '+M7 (augM7)',
   'aug7': '+7',
   '6': '6',

@@ -44,7 +44,7 @@ export function CurrentChordDisplay({ chord, feedback, isPoolEmpty }: Props) {
             </svg>
             <span className="text-2xl font-semibold text-neutral-300">No chords available</span>
           </div>
-          <span className="text-sm text-neutral-400">Adjust your chord selection settings</span>
+          <span className="text-sm text-neutral-400">(No chords can be selected from, adjust settings to widen the chord selection)</span>
         </div>
       ) : (
         <span className="text-4xl text-neutral-400">—</span>
