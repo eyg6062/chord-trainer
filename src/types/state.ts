@@ -12,7 +12,7 @@ export interface Settings {
   ticksPerChord: number;
 
   // Chord pool config
-  allKeysEnabled: boolean;
+  keysFilterEnabled: boolean;
   selectedKeys: string[];         // e.g. ["C major", "A minor"]
   allRootsEnabled: boolean;
   selectedRoots: NoteClass[];
@@ -23,7 +23,8 @@ export interface Settings {
   allowedExtensions: Extension[];
 
   // Preview
-  nextChordPreviewCount: number;  // 0–4
+  chordPreviewEnabled: boolean;
+  nextChordPreviewCount: number;  // 1–4
 }
 
 export interface PracticeState {
@@ -51,7 +52,7 @@ export type Action =
   | { type: 'SET_METRONOME_ENABLED'; payload: boolean }
   | { type: 'SET_BPM'; payload: number }
   | { type: 'SET_TICKS_PER_CHORD'; payload: number }
-  | { type: 'SET_ALL_KEYS_ENABLED'; payload: boolean }
+  | { type: 'SET_KEYS_FILTER_ENABLED'; payload: boolean }
   | { type: 'SET_SELECTED_KEYS'; payload: string[] }
   | { type: 'SET_ALL_ROOTS_ENABLED'; payload: boolean }
   | { type: 'SET_SELECTED_ROOTS'; payload: NoteClass[] }
@@ -60,6 +61,7 @@ export type Action =
   | { type: 'SET_SELECTED_CHORD_TYPES'; payload: ChordTypeName[] }
   | { type: 'SET_ALL_EXTENSIONS_ENABLED'; payload: boolean }
   | { type: 'SET_ALLOWED_EXTENSIONS'; payload: Extension[] }
+  | { type: 'SET_CHORD_PREVIEW_ENABLED'; payload: boolean }
   | { type: 'SET_NEXT_CHORD_PREVIEW_COUNT'; payload: number }
   // MIDI devices
   | { type: 'SET_MIDI_DEVICES'; payload: MidiDevice[] }

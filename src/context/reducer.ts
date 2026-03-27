@@ -7,18 +7,19 @@ import { CHROMATIC_NOTES } from '../constants/notes';
 export const DEFAULT_SETTINGS: Settings = {
   midiEnabled: false,
   selectedMidiDeviceId: null,
-  metronomeEnabled: false,
-  bpm: 80,
+  metronomeEnabled: true,
+  bpm: 120,
   ticksPerChord: 4,
-  allKeysEnabled: true,
+  keysFilterEnabled: false,
   selectedKeys: [],
   allRootsEnabled: true,
   selectedRoots: [...CHROMATIC_NOTES],
   allChordTypesEnabled: false,
   allGroupsEnabled: {},
-  selectedChordTypes: ['Major', 'minor'],
+  selectedChordTypes: ['Major', 'minor', 'dim', 'aug', 'M7', 'm7', '7'],
   allExtensionsEnabled: false,
   allowedExtensions: [],
+  chordPreviewEnabled: true,
   nextChordPreviewCount: 2,
 };
 
@@ -92,8 +93,8 @@ export function reducer(state: AppState, action: Action): AppState {
     case 'SET_TICKS_PER_CHORD':
       return { ...state, settings: { ...state.settings, ticksPerChord: action.payload } };
 
-    case 'SET_ALL_KEYS_ENABLED':
-      return { ...state, settings: { ...state.settings, allKeysEnabled: action.payload } };
+    case 'SET_KEYS_FILTER_ENABLED':
+      return { ...state, settings: { ...state.settings, keysFilterEnabled: action.payload } };
 
     case 'SET_SELECTED_KEYS':
       return { ...state, settings: { ...state.settings, selectedKeys: action.payload } };
@@ -118,6 +119,9 @@ export function reducer(state: AppState, action: Action): AppState {
 
     case 'SET_ALLOWED_EXTENSIONS':
       return { ...state, settings: { ...state.settings, allowedExtensions: action.payload } };
+
+    case 'SET_CHORD_PREVIEW_ENABLED':
+      return { ...state, settings: { ...state.settings, chordPreviewEnabled: action.payload } };
 
     case 'SET_NEXT_CHORD_PREVIEW_COUNT':
       return {

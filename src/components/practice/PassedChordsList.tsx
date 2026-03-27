@@ -1,12 +1,8 @@
 import type { PassedChord, ChordFeedback } from '../../types/chord';
+import { formatChordName } from '../../logic/formatChord';
 
 interface Props {
   passedChords: PassedChord[];
-}
-
-// TODO: reuse shared formatChordName util once extracted
-function formatChordName(chord: PassedChord['chord']): string {
-  return `${chord.root}${chord.chordType}${chord.extensions.join('')}`;
 }
 
 const feedbackBadgeClass: Record<ChordFeedback, string> = {

@@ -1,16 +1,8 @@
 import type { Extension } from '../../types/chord';
+import { InfoTooltip } from './InfoTooltip';
+import { EXTENSION_TO_UI_STRING } from '../../constants/uiMapping';
 
-const ALL_EXTENSIONS: { value: Extension; label: string }[] = [
-  { value: 'b5',  label: '♭5'  },
-  { value: '#5',  label: '♯5'  },
-  { value: 'b9',  label: '♭9'  },
-  { value: '#9',  label: '♯9'  },
-  { value: '#11', label: '♯11' },
-  { value: 'b13', label: '♭13' },
-  { value: 'alt', label: 'alt' },
-];
-
-export const ALL_EXTENSION_VALUES: Extension[] = ALL_EXTENSIONS.map((e) => e.value);
+export const ALL_EXTENSION_VALUES: Extension[] = ['b5', '#5', 'b9', '#9', '#11', 'b13', 'alt'];
 
 interface Props {
   allowedExtensions: Extension[];
@@ -24,6 +16,7 @@ export function ExtensionSelector({ allowedExtensions, allExtensionsEnabled, onT
     <div className="space-y-2">
       <div className="flex items-center gap-3">
         <h3 className="text-sm font-semibold text-neutral-300">Note Extensions</h3>
+        <InfoTooltip text="Notes applied as optional modifiers on top of selected chord types. Selected extensions may be randomly applied to generated chords." />
         <label className="flex items-center gap-1.5 text-sm text-neutral-400 cursor-pointer">
           <input
             type="checkbox"
@@ -34,11 +27,8 @@ export function ExtensionSelector({ allowedExtensions, allExtensionsEnabled, onT
           All
         </label>
       </div>
-      <p className="text-xs text-neutral-500">
-        Applied as optional modifiers on top of selected chord types.
-      </p>
       <div className="flex flex-wrap gap-1.5">
-        {ALL_EXTENSIONS.map(({ value, label }) => {
+        {ALL_EXTENSION_VALUES.map((value) => {
           const isSelected = allowedExtensions.includes(value);
           const isHalfLit = !isSelected && allExtensionsEnabled;
           return (
@@ -53,7 +43,7 @@ export function ExtensionSelector({ allowedExtensions, allExtensionsEnabled, onT
                     : 'bg-neutral-800 border-neutral-600 text-neutral-300 hover:border-indigo-400'
                 }`}
             >
-              {label}
+              {EXTENSION_TO_UI_STRING[value]}
             </button>
           );
         })}

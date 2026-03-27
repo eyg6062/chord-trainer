@@ -68,7 +68,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const s = state.settings;
 
     const effectiveRoots = s.allRootsEnabled ? CHROMATIC_NOTES : s.selectedRoots;
-    const effectiveKeys  = s.allKeysEnabled  ? []              : s.selectedKeys;
+    const effectiveKeys  = s.keysFilterEnabled ? s.selectedKeys : [];
     const effectiveChordTypes = s.allChordTypesEnabled
       ? ALL_CHORD_TYPES
       : [...new Set([
@@ -86,7 +86,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [
     state.settings.allRootsEnabled,
     state.settings.selectedRoots,
-    state.settings.allKeysEnabled,
+    state.settings.keysFilterEnabled,
     state.settings.selectedKeys,
     state.settings.allChordTypesEnabled,
     state.settings.allGroupsEnabled,

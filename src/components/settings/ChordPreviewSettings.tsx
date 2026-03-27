@@ -2,25 +2,16 @@ import { SliderNumberInput } from './SliderNumberInput';
 
 interface Props {
   enabled: boolean;
-  bpm: number;
-  ticksPerChord: number;
+  previewCount: number;
   onToggle: () => void;
-  onBpmChange: (bpm: number) => void;
-  onTicksChange: (ticks: number) => void;
+  onPreviewCountChange: (count: number) => void;
 }
 
-export function MetronomeSettings({
-  enabled,
-  bpm,
-  ticksPerChord,
-  onToggle,
-  onBpmChange,
-  onTicksChange,
-}: Props) {
+export function ChordPreviewSettings({ enabled, previewCount, onToggle, onPreviewCountChange }: Props) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-3">
-        <h3 className="text-sm font-semibold text-neutral-300">Metronome</h3>
+        <h3 className="text-sm font-semibold text-neutral-300">Chord Preview</h3>
         <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
@@ -34,18 +25,11 @@ export function MetronomeSettings({
 
       <div className={`space-y-2 ${!enabled ? 'opacity-50 pointer-events-none' : ''}`}>
         <SliderNumberInput
-          label="Tempo (BPM)"
-          value={bpm}
+          label="Preview count"
+          value={previewCount}
           min={1}
-          max={240}
-          onChange={onBpmChange}
-        />
-        <SliderNumberInput
-          label="Ticks per chord"
-          value={ticksPerChord}
-          min={1}
-          max={24}
-          onChange={onTicksChange}
+          max={4}
+          onChange={onPreviewCountChange}
         />
       </div>
     </div>
