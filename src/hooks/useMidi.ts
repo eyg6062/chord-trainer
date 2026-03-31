@@ -76,8 +76,7 @@ export function useMidi(): { refreshDevices: () => void } {
     if (
       !practice.readyToAdvance ||
       !settings.midiEnabled ||
-      settings.metronomeEnabled ||
-      !practice.isRunning
+      settings.metronomeEnabled
     ) return;
 
     const timer = setTimeout(() => {

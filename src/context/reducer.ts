@@ -136,7 +136,7 @@ export function reducer(state: AppState, action: Action): AppState {
 
     // ── NOTE_ON ───────────────────────────────────────────────────────────────
     case 'NOTE_ON': {
-      if (!state.practice.isRunning || state.practice.currentChord === null) return state;
+      if (state.practice.currentChord === null) return state;
 
       const { pitchClass } = action.payload;
       const newNotes = new Set(state.practice.notesHitThisChord).add(pitchClass);
@@ -204,7 +204,7 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, practice: { ...state.practice, isRunning: false } };
 
     case 'ADVANCE_CHORD': {
-      if (!state.practice.isRunning) return state;
+      if (!state.practice.isRunning && state.settings.metronomeEnabled) return state;
       return {
         ...state,
         practice: advanceChord(state.practice, action.payload),
