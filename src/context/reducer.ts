@@ -8,6 +8,7 @@ import { getExpectedPitchClasses, isNoteWrong, evaluatePlay } from '../logic/cho
 export const DEFAULT_SETTINGS: Settings = {
   midiEnabled: false,
   selectedMidiDeviceId: null,
+  autoAdvanceEnabled: false,
   metronomeEnabled: true,
   bpm: 120,
   ticksPerChord: 4,
@@ -48,9 +49,9 @@ const MAX_PASSED_CHORDS = 20;
 
 function advanceChord(
   practice: PracticeState,
-  payload: { feedback: ChordFeedback; newChord: Chord | null },
+  payload: { feedback: ChordFeedback; newChord: Chord | null; startTick?: number },
 ): PracticeState {
-  const { feedback: fb, newChord } = payload;
+  const { feedback: fb, newChord, startTick = 1 } = payload;
 
   const newPassed = practice.currentChord
     ? [{ chord: practice.currentChord, feedback: fb }, ...practice.passedChords].slice(
@@ -66,7 +67,7 @@ function advanceChord(
     currentChord: next ?? newChord,
     nextChords: next !== undefined ? [...rest, ...(newChord ? [newChord] : [])] : [],
     passedChords: newPassed,
-    currentTick: 1,
+    currentTick: startTick,
     currentFeedback: 'neutral',
     notesHitThisChord: new Set(),
     wrongNotePlayedThisChord: false,
@@ -84,6 +85,9 @@ export function reducer(state: AppState, action: Action): AppState {
 
     case 'SET_MIDI_DEVICE':
       return { ...state, settings: { ...state.settings, selectedMidiDeviceId: action.payload } };
+
+    case 'SET_AUTO_ADVANCE_ENABLED':
+      return { ...state, settings: { ...state.settings, autoAdvanceEnabled: action.payload } };
 
     case 'SET_METRONOME_ENABLED':
       return { ...state, settings: { ...state.settings, metronomeEnabled: action.payload } };
@@ -204,7 +208,6 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, practice: { ...state.practice, isRunning: false } };
 
     case 'ADVANCE_CHORD': {
-      if (!state.practice.isRunning && state.settings.metronomeEnabled) return state;
       return {
         ...state,
         practice: advanceChord(state.practice, action.payload),

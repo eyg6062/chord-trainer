@@ -113,6 +113,8 @@ function App() {
         onMidiToggle={() => dispatch({ type: 'SET_MIDI_ENABLED', payload: !settings.midiEnabled })}
         onMidiSelectDevice={(id) => dispatch({ type: 'SET_MIDI_DEVICE', payload: id })}
         onMidiRefresh={refreshDevices}
+        autoAdvanceEnabled={settings.autoAdvanceEnabled}
+        onAutoAdvanceToggle={() => dispatch({ type: 'SET_AUTO_ADVANCE_ENABLED', payload: !settings.autoAdvanceEnabled })}
         // Metronome
         metronomeEnabled={settings.metronomeEnabled}
         bpm={settings.bpm}

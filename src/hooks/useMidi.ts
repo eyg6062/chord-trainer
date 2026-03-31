@@ -71,13 +71,12 @@ export function useMidi(): { refreshDevices: () => void } {
     return () => { input.onmidimessage = null; };
   }, [midiAccess, settings.midiEnabled, settings.selectedMidiDeviceId]);
 
-  // ── Auto-advance when chord is complete (metronome off only) ───────────────
+  // ── Auto-advance when chord is complete ───────────────────────────────────
   useEffect(() => {
-    if (
-      !practice.readyToAdvance ||
-      !settings.midiEnabled ||
-      settings.metronomeEnabled
-    ) return;
+    if (!practice.readyToAdvance || !settings.midiEnabled || !settings.autoAdvanceEnabled) return;
+
+    const wasRunning = practice.isRunning && settings.metronomeEnabled;
+    if (wasRunning) dispatch({ type: 'PAUSE_PRACTICE' });
 
     const timer = setTimeout(() => {
       dispatch({
@@ -85,8 +84,10 @@ export function useMidi(): { refreshDevices: () => void } {
         payload: {
           feedback: currentFeedbackRef.current,
           newChord: pickRandomChord(chordPoolRef.current),
+          startTick: 0,
         },
       });
+      if (wasRunning) dispatch({ type: 'RESUME_PRACTICE' });
     }, 500);
 
     return () => clearTimeout(timer);
