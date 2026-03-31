@@ -46,7 +46,7 @@ export function MidiSettings({
             ) : (
               devices.map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.name}
+                  {d.connected ? d.name : `${d.name} — disconnected`}
                 </option>
               ))
             )}

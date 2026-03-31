@@ -1,6 +1,7 @@
 import type { AppState, Action, Settings, PracticeState } from '../types/state';
 import type { Chord, ChordFeedback } from '../types/chord';
 import { CHROMATIC_NOTES } from '../constants/notes';
+import { getExpectedPitchClasses, isNoteWrong, evaluatePlay } from '../logic/chordValidation';
 
 // ── Defaults ──────────────────────────────────────────────────────────────────
 
@@ -134,17 +135,25 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, midiDevices: action.payload };
 
     // ── NOTE_ON ───────────────────────────────────────────────────────────────
-    // Updates notesHitThisChord. currentFeedback + wrongNotePlayedThisChord are
-    // updated here once chordValidation.ts (evaluatePlay / isNoteWrong) exists.
     case 'NOTE_ON': {
       if (!state.practice.isRunning || state.practice.currentChord === null) return state;
 
       const { pitchClass } = action.payload;
       const newNotes = new Set(state.practice.notesHitThisChord).add(pitchClass);
+      const expected = getExpectedPitchClasses(state.practice.currentChord);
+      const newWrong = state.practice.wrongNotePlayedThisChord || isNoteWrong(pitchClass, expected);
+      const feedback = evaluatePlay(expected, newNotes, newWrong);
+      const readyToAdvance = feedback === 'correct' || feedback === 'correct-with-wrong';
 
       return {
         ...state,
-        practice: { ...state.practice, notesHitThisChord: newNotes },
+        practice: {
+          ...state.practice,
+          notesHitThisChord: newNotes,
+          wrongNotePlayedThisChord: newWrong,
+          currentFeedback: feedback,
+          readyToAdvance,
+        },
       };
     }
 

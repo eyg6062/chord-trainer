@@ -1,4 +1,5 @@
 import { useApp } from './context/AppContext';
+import { useMidi } from './hooks/useMidi';
 import { CHORD_GROUPS } from './components/settings/ChordTypeSelector';
 import { PracticeArea } from './components/practice/PracticeArea';
 import { SettingsPanel } from './components/settings/SettingsPanel';
@@ -7,6 +8,7 @@ import type { NoteClass, ChordTypeName, Extension } from './types/chord';
 function App() {
   const { state, dispatch } = useApp();
   const { settings } = state;
+  const { refreshDevices } = useMidi();
 
   // ── Keys ──────────────────────────────────────────────────────────────────
 
@@ -104,14 +106,14 @@ function App() {
       </main>
 
       <SettingsPanel
-        // MIDI — TODO: wire when useMidi is implemented
+        // MIDI
         midiEnabled={settings.midiEnabled}
         midiDevices={state.midiDevices}
         selectedMidiDeviceId={settings.selectedMidiDeviceId}
-        onMidiToggle={() => {}}
-        onMidiSelectDevice={() => {}}
-        onMidiRefresh={() => {}}
-        // Metronome — TODO: wire when useMetronome is implemented
+        onMidiToggle={() => dispatch({ type: 'SET_MIDI_ENABLED', payload: !settings.midiEnabled })}
+        onMidiSelectDevice={(id) => dispatch({ type: 'SET_MIDI_DEVICE', payload: id })}
+        onMidiRefresh={refreshDevices}
+        // Metronome
         metronomeEnabled={settings.metronomeEnabled}
         bpm={settings.bpm}
         ticksPerChord={settings.ticksPerChord}
