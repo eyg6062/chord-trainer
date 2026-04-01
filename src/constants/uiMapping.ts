@@ -72,7 +72,7 @@ export const CHORDTYPENAME_TO_DISPLAY_CHORD_UI_STRING: Record<ChordTypeName, str
   '7': '7',
   'mM7': 'mM7',
   'dim7': '°7',
-  'm7b5': 'Cø7',
+  'm7b5': 'ø7',
   'augM7': '+M7',
   'aug7': '+7',
   '6': '6',
