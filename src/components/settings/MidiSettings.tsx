@@ -1,22 +1,26 @@
 import type { MidiDevice } from '../../types/midi';
+import { InfoTooltip } from './InfoTooltip';
 
 interface Props {
   enabled: boolean;
   devices: MidiDevice[];
   selectedDeviceId: string | null;
-  // TODO: wire to dispatch
+  autoAdvanceEnabled: boolean;
   onToggle: () => void;
   onSelectDevice: (id: string) => void;
   onRefresh: () => void;
+  onAutoAdvanceToggle: () => void;
 }
 
 export function MidiSettings({
   enabled,
   devices,
   selectedDeviceId,
+  autoAdvanceEnabled,
   onToggle,
   onSelectDevice,
   onRefresh,
+  onAutoAdvanceToggle,
 }: Props) {
   return (
     <div className="space-y-2">
@@ -32,12 +36,12 @@ export function MidiSettings({
         <span className="text-sm text-neutral-300">Enable MIDI device</span>
       </label>
 
-      {enabled && (
-        <div className="flex items-center gap-2 pl-5">
+      <div className={`space-y-3 pl-5 ${enabled ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+        <div className="flex items-center gap-2">
           <select
             value={selectedDeviceId ?? ''}
             onChange={(e) => onSelectDevice(e.target.value)}
-            disabled={devices.length === 0}
+            disabled={!enabled || devices.length === 0}
             className="text-sm border border-neutral-600 rounded-md px-2 py-1
                        bg-neutral-800 text-neutral-200 disabled:opacity-50"
           >
@@ -46,7 +50,7 @@ export function MidiSettings({
             ) : (
               devices.map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.name}
+                  {d.connected ? d.name : `${d.name} — disconnected`}
                 </option>
               ))
             )}
@@ -61,7 +65,18 @@ export function MidiSettings({
             ↺ Refresh
           </button>
         </div>
-      )}
+
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={autoAdvanceEnabled}
+            onChange={onAutoAdvanceToggle}
+            className="rounded accent-indigo-500"
+          />
+          <span className="text-sm text-neutral-300">Auto Advance</span>
+          <InfoTooltip text="Automatically advances to the next chord 500ms after playing it correctly. With the metronome on, pauses the count, advances, then resumes." />
+        </label>
+      </div>
     </div>
   );
 }

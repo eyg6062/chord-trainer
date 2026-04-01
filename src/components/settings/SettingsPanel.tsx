@@ -13,6 +13,7 @@ interface Props {
   midiEnabled: boolean;
   midiDevices: MidiDevice[];
   selectedMidiDeviceId: string | null;
+  autoAdvanceEnabled: boolean;
   // Metronome
   metronomeEnabled: boolean;
   bpm: number;
@@ -34,6 +35,7 @@ interface Props {
   onMidiToggle: () => void;
   onMidiSelectDevice: (id: string) => void;
   onMidiRefresh: () => void;
+  onAutoAdvanceToggle: () => void;
   onMetronomeToggle: () => void;
   onBpmChange: (bpm: number) => void;
   onTicksChange: (ticks: number) => void;
@@ -64,9 +66,11 @@ export function SettingsPanel(props: Props) {
             enabled={props.midiEnabled}
             devices={props.midiDevices}
             selectedDeviceId={props.selectedMidiDeviceId}
+            autoAdvanceEnabled={props.autoAdvanceEnabled}
             onToggle={props.onMidiToggle}
             onSelectDevice={props.onMidiSelectDevice}
             onRefresh={props.onMidiRefresh}
+            onAutoAdvanceToggle={props.onAutoAdvanceToggle}
           />
         </div>
         <div className={box}>

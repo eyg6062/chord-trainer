@@ -5,6 +5,7 @@ export interface Settings {
   // MIDI
   midiEnabled: boolean;
   selectedMidiDeviceId: string | null;
+  autoAdvanceEnabled: boolean;
 
   // Metronome
   metronomeEnabled: boolean;
@@ -49,6 +50,7 @@ export type Action =
   // Settings
   | { type: 'SET_MIDI_ENABLED'; payload: boolean }
   | { type: 'SET_MIDI_DEVICE'; payload: string | null }
+  | { type: 'SET_AUTO_ADVANCE_ENABLED'; payload: boolean }
   | { type: 'SET_METRONOME_ENABLED'; payload: boolean }
   | { type: 'SET_BPM'; payload: number }
   | { type: 'SET_TICKS_PER_CHORD'; payload: number }
@@ -71,6 +73,6 @@ export type Action =
   | { type: 'START_PRACTICE'; payload: { pool: Chord[] } }
   | { type: 'RESUME_PRACTICE' }
   | { type: 'PAUSE_PRACTICE' }
-  | { type: 'ADVANCE_CHORD'; payload: { feedback: ChordFeedback; newChord: Chord | null } }
+  | { type: 'ADVANCE_CHORD'; payload: { feedback: ChordFeedback; newChord: Chord | null; startTick?: number } }
   | { type: 'SKIP_CHORD'; payload: { newChord: Chord | null } }
   | { type: 'TICK' };
