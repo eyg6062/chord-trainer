@@ -26,6 +26,11 @@ function chordToNotes(chord: Chord): string[] {
     intervals.push(ext);
   }
 
+  intervals.sort((a, b) =>
+    (INTERVAL_TRUE_SEMITONE[a] ?? intervalToSemitone(a)) -
+    (INTERVAL_TRUE_SEMITONE[b] ?? intervalToSemitone(b))
+  );
+
   const rootSemitone = NOTE_TO_SEMITONE[chord.root];
   return intervals.map((iv) => {
     const abs = rootSemitone + (INTERVAL_TRUE_SEMITONE[iv] ?? intervalToSemitone(iv));
