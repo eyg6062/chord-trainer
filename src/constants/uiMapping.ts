@@ -23,7 +23,6 @@ export const EXTENSION_TO_UI_STRING: Record<Extension, string> = {
   '#9':  '♯9',
   '#11': '♯11',
   'b13': '♭13',
-  'alt': 'alt'
 };
 
 export const CHORDTYPENAME_TO_SETTINGS_UI_STRING: Record<ChordTypeName, string> = {

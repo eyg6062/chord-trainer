@@ -2,7 +2,7 @@ export type NoteClass =
   | 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F'
   | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B';
 
-export type Extension = 'b5' | '#5' | 'b9' | '#9' | '#11' | 'b13' | 'alt';
+export type Extension = 'b5' | '#5' | 'b9' | '#9' | '#11' | 'b13';
 
 export type ChordTypeName =
   | 'Major' | 'minor' | 'dim' | 'aug' | 'sus2' | 'sus4'

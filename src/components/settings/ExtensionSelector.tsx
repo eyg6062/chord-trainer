@@ -2,7 +2,7 @@ import type { Extension } from '../../types/chord';
 import { InfoTooltip } from './InfoTooltip';
 import { EXTENSION_TO_UI_STRING } from '../../constants/uiMapping';
 
-export const ALL_EXTENSION_VALUES: Extension[] = ['b5', '#5', 'b9', '#9', '#11', 'b13', 'alt'];
+export const ALL_EXTENSION_VALUES: Extension[] = ['b5', '#5', 'b9', '#9', '#11', 'b13'];
 
 interface Props {
   allowedExtensions: Extension[];

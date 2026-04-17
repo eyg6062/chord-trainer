@@ -18,7 +18,7 @@ import type { ChordTypeName } from '../types/chord';
  *   "11"  = perfect eleventh (= 4 up an octave)
  *   "13"  = major thirteenth (= 6 up an octave)
  *
- * Extensions (b5, #5, b9, #9, #11, b13, alt) are NOT listed here —
+ * Extensions (b5, #5, b9, #9, #11, b13) are NOT listed here —
  * they are applied on top of these base intervals by chordGeneration.ts.
  */
 export const CHORD_INTERVALS: Record<ChordTypeName, string[]> = {

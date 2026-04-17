@@ -2,7 +2,7 @@ import type { Chord, ChordTypeName, Extension } from '../types/chord';
 import type { Settings } from '../types/state';
 import { CHORD_INTERVALS } from '../constants/chordIntervals';
 import { DIATONIC_CHORDS } from '../constants/diatonicChords';
-import { EXTENSION_REPLACES_DEGREE, DOMINANT_FAMILY } from '../constants/extensions';
+import { EXTENSION_REPLACES_DEGREE } from '../constants/extensions';
 import { getIntervalDegree } from './intervalUtils';
 
 // ── Extension enumeration ────────────────────────────────────────────────────
@@ -17,9 +17,6 @@ import { getIntervalDegree } from './intervalUtils';
  *    EXTENSION_REPLACES_DEGREE) exists in the chord's base intervals.
  *  - Two extensions targeting the same degree (e.g. b5 + #5) cannot
  *    coexist — at most one is chosen per degree.
- *  - "alt" is only valid on dominant-family chords and is mutually
- *    exclusive with all other extensions.
- *
  * When `allowedExtensions` is empty this returns [[]], so callers
  * always receive at least one entry and the plain chord always works.
  */
@@ -35,18 +32,11 @@ export function getValidExtensionSubsets(
 
   const results: Extension[][] = [[]]; // plain chord is always valid
 
-  // ── "alt" extension (special case) ────────────────────────────────────────
-  // Valid only on dominant-family chords; mutually exclusive with everything else.
-  if (allowedExtensions.includes('alt') && DOMINANT_FAMILY.has(chordType)) {
-    results.push(['alt']);
-  }
-
-  // ── Regular extensions ────────────────────────────────────────────────────
-  // Keep only those whose target degree is present in the base chord.
-  const validRegular = allowedExtensions.filter((ext): ext is Exclude<Extension, 'alt'> => {
-    if (ext === 'alt') return false;
+  // Keep only extensions whose target degree is present in the base chord
+  // and whose interval isn't already literally present.
+  const validRegular = allowedExtensions.filter((ext) => {
     const targetDegree = EXTENSION_REPLACES_DEGREE[ext];
-    return targetDegree !== null && baseDegrees.has(targetDegree) && !baseIntervals.includes(ext);
+    return baseDegrees.has(targetDegree) && !baseIntervals.includes(ext);
   });
 
   if (validRegular.length === 0) return results;

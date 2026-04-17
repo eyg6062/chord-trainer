@@ -29,12 +29,10 @@ describe('getValidExtensionSubsets', () => {
     });
 
     it('excludes b5 on chords that already have b5 as the base (dim7)', () => {
-      // dim7 base intervals: 1, b3, b5, bb7 — degree "5" is present as "b5"
-      // so "b5" extension targets degree "5" which IS present → it IS valid
-      // (extension replaces whatever interval has degree 5)
+      // dim7 base intervals: 1, b3, b5, bb7 — already contains "b5" literally
+      // so "b5" extension is redundant and excluded
       const subsets = getValidExtensionSubsets('dim7', ['b5']);
-      const flatSubsets = subsets.map(s => s.sort().join(','));
-      expect(flatSubsets).toContain('b5');
+      expect(subsets).toEqual([[]]);
     });
 
     it('includes b9 on m7 which has no 9 in base — b9 targets degree 9, not present', () => {
@@ -102,33 +100,6 @@ describe('getValidExtensionSubsets', () => {
     });
   });
 
-  describe('alt extension', () => {
-    it('is valid on dominant-family chords', () => {
-      const subsets = getValidExtensionSubsets('7', ['alt']);
-      expect(subsets).toContainEqual(['alt']);
-    });
-
-    it('is invalid on non-dominant chords', () => {
-      expect(getValidExtensionSubsets('M7', ['alt'])).toEqual([[]]);
-      expect(getValidExtensionSubsets('m7', ['alt'])).toEqual([[]]);
-      expect(getValidExtensionSubsets('Major', ['alt'])).toEqual([[]]);
-    });
-
-    it('appears as its own subset and does not combine with other extensions', () => {
-      const subsets = getValidExtensionSubsets('7', ['alt', 'b9']);
-      // b9 targets 9, not in 7 base (1,3,5,b7) → invalid
-      // alt is valid → [[],  ['alt']]
-      expect(subsets).toContainEqual([]);
-      expect(subsets).toContainEqual(['alt']);
-
-      // Even when b9 would be valid (on a 9 chord), alt stays separate
-      const subsets9 = getValidExtensionSubsets('9', ['alt', 'b9']);
-      const hasAltWithB9 = subsets9.some(
-        s => s.includes('alt') && s.includes('b9')
-      );
-      expect(hasAltWithB9).toBe(false);
-    });
-  });
 });
 
 // ── buildChordPool ────────────────────────────────────────────────────────────

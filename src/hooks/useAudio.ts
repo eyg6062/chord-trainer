@@ -21,7 +21,6 @@ function chordToNotes(chord: Chord): string[] {
 
   for (const ext of chord.extensions) {
     const targetDegree = EXTENSION_REPLACES_DEGREE[ext];
-    if (targetDegree === null) continue; // "alt" — skip
     intervals = intervals.filter((iv) => getIntervalDegree(iv) !== targetDegree);
     intervals.push(ext);
   }

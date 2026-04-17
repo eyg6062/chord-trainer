@@ -9,8 +9,6 @@ import { intervalToSemitone, getIntervalDegree } from './intervalUtils';
  * accounting for any extensions applied on top of the base intervals.
  *
  * Extensions replace the base interval that shares their target degree.
- * The 'alt' extension has no specific degree mapping and is skipped —
- * only the base chord intervals are used for validation in that case.
  */
 export function getExpectedPitchClasses(chord: Chord): Set<number> {
   const rootSemitone = NOTE_TO_SEMITONE[chord.root];
@@ -18,7 +16,6 @@ export function getExpectedPitchClasses(chord: Chord): Set<number> {
 
   for (const ext of chord.extensions) {
     const targetDegree = EXTENSION_REPLACES_DEGREE[ext];
-    if (targetDegree === null) continue; // 'alt' — skip
     intervals = intervals.filter((i) => getIntervalDegree(i) !== targetDegree);
     intervals.push(ext); // Extension strings are valid interval keys
   }
