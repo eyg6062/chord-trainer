@@ -46,7 +46,7 @@ export function getValidExtensionSubsets(
   const validRegular = allowedExtensions.filter((ext): ext is Exclude<Extension, 'alt'> => {
     if (ext === 'alt') return false;
     const targetDegree = EXTENSION_REPLACES_DEGREE[ext];
-    return targetDegree !== null && baseDegrees.has(targetDegree);
+    return targetDegree !== null && baseDegrees.has(targetDegree) && !baseIntervals.includes(ext);
   });
 
   if (validRegular.length === 0) return results;
