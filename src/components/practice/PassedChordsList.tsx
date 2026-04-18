@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { PassedChord, ChordFeedback } from '../../types/chord';
 import {
   NOTECLASS_TO_UI_STRING,
@@ -19,6 +20,13 @@ const feedbackColorClass: Record<ChordFeedback, string> = {
 };
 
 export function PassedChordsList({ passedChords, onClear }: Props) {
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const box = boxRef.current;
+    if (box) box.scrollTop = box.scrollHeight;
+  }, [passedChords.length]);
+
   return (
     <div className="flex flex-col gap-2 w-52 h-full">
       <h3 className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
@@ -26,7 +34,7 @@ export function PassedChordsList({ passedChords, onClear }: Props) {
       </h3>
 
       {/* Chord box */}
-      <div className="scrollbar-dark flex-1 min-h-0 overflow-y-auto flex flex-wrap content-start gap-x-3 gap-y-1">
+      <div ref={boxRef} className="scrollbar-dark flex-1 min-h-0 overflow-y-auto flex flex-wrap content-start gap-x-3 gap-y-1">
         {passedChords.length === 0 ? (
           <span className="text-xs text-neutral-600">No chords yet</span>
         ) : (
