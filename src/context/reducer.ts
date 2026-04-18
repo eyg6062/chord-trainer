@@ -45,7 +45,7 @@ export const INITIAL_STATE: AppState = {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const MAX_PASSED_CHORDS = 20;
+const MAX_PASSED_CHORDS = 1000;
 
 function advanceChord(
   practice: PracticeState,
@@ -54,9 +54,8 @@ function advanceChord(
   const { feedback: fb, newChord, startTick = 1 } = payload;
 
   const newPassed = practice.currentChord
-    ? [{ chord: practice.currentChord, feedback: fb }, ...practice.passedChords].slice(
-        0,
-        MAX_PASSED_CHORDS,
+    ? [...practice.passedChords, { chord: practice.currentChord, feedback: fb }].slice(
+        -MAX_PASSED_CHORDS,
       )
     : practice.passedChords;
 
@@ -218,9 +217,9 @@ export function reducer(state: AppState, action: Action): AppState {
       const { newChord } = action.payload;
       const newPassed = state.practice.currentChord
         ? [
-            { chord: state.practice.currentChord, feedback: 'skipped' as const },
             ...state.practice.passedChords,
-          ].slice(0, MAX_PASSED_CHORDS)
+            { chord: state.practice.currentChord, feedback: 'skipped' as const },
+          ].slice(-MAX_PASSED_CHORDS)
         : state.practice.passedChords;
 
       const [next, ...rest] = state.practice.nextChords;
@@ -240,6 +239,9 @@ export function reducer(state: AppState, action: Action): AppState {
         },
       };
     }
+
+    case 'CLEAR_PASSED_CHORDS':
+      return { ...state, practice: { ...state.practice, passedChords: [] } };
 
     case 'TICK': {
       if (!state.practice.isRunning) return state;

@@ -93,7 +93,10 @@ export function PracticeArea() {
     <div className="flex gap-4 p-6">
       {/* Left column: chord history */}
       <aside className="flex-none pt-2">
-        <PassedChordsList passedChords={[]} />
+        <PassedChordsList
+          passedChords={practice.passedChords}
+          onClear={() => dispatch({ type: 'CLEAR_PASSED_CHORDS' })}
+        />
       </aside>
 
       {/* Center column: main practice display */}
@@ -133,7 +136,7 @@ export function PracticeArea() {
       </div>
 
       {/* Right spacer: matches aside width so center column is truly centered */}
-      <div className="flex-none w-36" />
+      <div className="flex-none w-52" />
     </div>
   );
 }
