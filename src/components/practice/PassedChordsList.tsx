@@ -41,7 +41,7 @@ export function PassedChordsList({ passedChords, onClear }: Props) {
           passedChords.map((entry, i) => (
             <div
               key={i}
-              className={`flex items-baseline gap-0.5 font-semibold ${feedbackColorClass[entry.feedback]}`}
+              className={`flex items-baseline gap-0.5 font-semibold opacity-80 bg-white/5 rounded px-1.5 py-0.5 ${feedbackColorClass[entry.feedback]}`}
             >
               <span className="text-sm">{NOTECLASS_TO_UI_STRING[entry.chord.root]}</span>
               <span className="text-sm">{CHORDTYPENAME_TO_DISPLAY_CHORD_UI_STRING[entry.chord.chordType]}</span>
