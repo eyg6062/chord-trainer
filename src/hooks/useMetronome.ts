@@ -70,7 +70,7 @@ export function useMetronome() {
           if (currentTickRef.current >= ticksPerChordRef.current) {
             dispatch({
               type: 'ADVANCE_CHORD',
-              payload: { feedback: currentFeedbackRef.current, newChord: pickRandomChord(chordPoolRef.current) },
+              payload: { feedback: currentFeedbackRef.current === 'neutral' ? 'skipped' : currentFeedbackRef.current, newChord: pickRandomChord(chordPoolRef.current) },
             });
           } else {
             dispatch({ type: 'TICK' });
