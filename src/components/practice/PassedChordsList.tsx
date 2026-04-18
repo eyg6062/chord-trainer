@@ -20,13 +20,13 @@ const feedbackColorClass: Record<ChordFeedback, string> = {
 
 export function PassedChordsList({ passedChords, onClear }: Props) {
   return (
-    <div className="flex flex-col gap-2 w-52">
+    <div className="flex flex-col gap-2 w-52 h-full">
       <h3 className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
         History
       </h3>
 
       {/* Chord box */}
-      <div className="flex flex-wrap gap-x-3 gap-y-1 min-h-6">
+      <div className="scrollbar-dark flex-1 min-h-0 overflow-y-auto flex flex-wrap content-start gap-x-3 gap-y-1">
         {passedChords.length === 0 ? (
           <span className="text-xs text-neutral-600">No chords yet</span>
         ) : (
