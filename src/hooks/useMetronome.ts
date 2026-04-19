@@ -14,11 +14,13 @@ export function useMetronome() {
   const ticksPerChordRef  = useRef(settings.ticksPerChord);
   const chordPoolRef      = useRef(chordPool);
   const bpmRef            = useRef(settings.bpm);
+  const currentFeedbackRef = useRef(practice.currentFeedback);
 
-  currentTickRef.current   = practice.currentTick;
-  ticksPerChordRef.current = settings.ticksPerChord;
-  chordPoolRef.current     = chordPool;
-  bpmRef.current           = settings.bpm;
+  currentTickRef.current    = practice.currentTick;
+  ticksPerChordRef.current  = settings.ticksPerChord;
+  chordPoolRef.current      = chordPool;
+  bpmRef.current            = settings.bpm;
+  currentFeedbackRef.current = practice.currentFeedback;
 
   const audioCtxRef   = useRef<AudioContext | null>(null);
   const tickBufferRef = useRef<AudioBuffer | null>(null);
@@ -68,7 +70,7 @@ export function useMetronome() {
           if (currentTickRef.current >= ticksPerChordRef.current) {
             dispatch({
               type: 'ADVANCE_CHORD',
-              payload: { feedback: 'neutral', newChord: pickRandomChord(chordPoolRef.current) },
+              payload: { feedback: currentFeedbackRef.current === 'neutral' ? 'skipped' : currentFeedbackRef.current, newChord: pickRandomChord(chordPoolRef.current) },
             });
           } else {
             dispatch({ type: 'TICK' });

@@ -75,4 +75,5 @@ export type Action =
   | { type: 'PAUSE_PRACTICE' }
   | { type: 'ADVANCE_CHORD'; payload: { feedback: ChordFeedback; newChord: Chord | null; startTick?: number } }
   | { type: 'SKIP_CHORD'; payload: { newChord: Chord | null } }
+  | { type: 'CLEAR_PASSED_CHORDS' }
   | { type: 'TICK' };

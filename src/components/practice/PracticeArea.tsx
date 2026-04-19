@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { pickRandomChord } from '../../logic/chordGeneration';
 import { useMetronome } from '../../hooks/useMetronome';
@@ -27,6 +27,20 @@ export function PracticeArea() {
         },
       });
     }
+  }, []);
+
+  // Sync aside height to center column so the chord box can scroll correctly
+  const centerColumnRef = useRef<HTMLDivElement>(null);
+  const asideRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const center = centerColumnRef.current;
+    const aside = asideRef.current;
+    if (!center || !aside) return;
+    const observer = new ResizeObserver(() => {
+      aside.style.height = `${center.offsetHeight}px`;
+    });
+    observer.observe(center);
+    return () => observer.disconnect();
   }, []);
 
   // Chord pool settings changed → pause + regenerate chords
@@ -92,12 +106,15 @@ export function PracticeArea() {
   return (
     <div className="flex gap-4 p-6">
       {/* Left column: chord history */}
-      <aside className="flex-none pt-2">
-        <PassedChordsList passedChords={[]} />
+      <aside ref={asideRef} className="flex-none pt-2 flex flex-col">
+        <PassedChordsList
+          passedChords={practice.passedChords}
+          onClear={() => dispatch({ type: 'CLEAR_PASSED_CHORDS' })}
+        />
       </aside>
 
       {/* Center column: main practice display */}
-      <div className="flex-1 flex flex-col items-center">
+      <div ref={centerColumnRef} className="flex-1 flex flex-col items-center">
 
         {/* Group 1: fixed-height — elements center when some are hidden */}
         <div className="flex flex-col items-center justify-center w-full h-68">
@@ -133,7 +150,7 @@ export function PracticeArea() {
       </div>
 
       {/* Right spacer: matches aside width so center column is truly centered */}
-      <div className="flex-none w-36" />
+      <div className="flex-none w-52" />
     </div>
   );
 }
